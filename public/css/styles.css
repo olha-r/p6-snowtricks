@@ -1,0 +1,45 @@
+html {
+  height: 100%;
+}
+
+#index .row {
+  margin: 0 auto;
+}
+
+#home-header{
+  min-height: 800px;
+  width:100%;
+  margin:0;
+  padding:0;
+  background: url("../images/snowboard-2.jpeg") no-repeat fixed;
+  background-size: cover;
+  text-align: center;
+  position:relative;
+
+}
+#header-title {
+  position: absolute;
+  left: 50%!important;
+  z-index: 10;
+  color: #FA9421;
+  text-align: center;
+  top: 50%!important;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  padding: 50px
+}
+
+#index {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+#show-trick {
+  margin: 40px 20px 30px;
+  padding: 20px 10px;
+}
+
+a {
+  text-decoration:none;
+  color: #FA9421;
+}
