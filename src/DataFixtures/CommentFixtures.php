@@ -29,6 +29,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CategoryFixtures::class,
+            UserFixtures::class,
             TrickFixtures::class
         ];
     }
