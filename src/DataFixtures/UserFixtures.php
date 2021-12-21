@@ -29,6 +29,7 @@ class UserFixtures extends Fixture
                 ->setToken('token');
 
             $manager->persist($user);
+            $this->addReference('user_' . $u, $user);
         }
 
 

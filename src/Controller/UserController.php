@@ -23,7 +23,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setToken('124');
+           $token = md5(random_bytes(10));
+            $user->setToken($token);
 
             $hash = $passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($hash);
