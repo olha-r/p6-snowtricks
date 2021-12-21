@@ -4,11 +4,15 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"username"}, message="Username que vous avez saisi est déjà enregistré!")
+ *
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -21,6 +25,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 20,
+     *      minMessage = "Username doit avoir au moins 4 caractères",
+     *      maxMessage = " Username doit avoir maximum 20 caractères"
+     * )
      */
     private $username;
 
@@ -32,11 +43,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(
+     *     min = 8,
+     *     minMessage="Votre mot de passe doit faire au moins 8 caractères"
+     * )
      */
     private $password;
 
     /**
+     * @Assert\EqualTo(propertyPath="password", message="Vous n'avez pas saisi le même mot de passe")
+     */
+    public $confirm_password;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     *     message = "Vous avez saisi un email qui ne pas valide !"
+     * )
      */
     private $email;
 
