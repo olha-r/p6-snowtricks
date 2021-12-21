@@ -16,21 +16,38 @@
     </div>
     <div class="container">
 
-        <div class="row">
-            {% for i in 1..3 %}
+        <div class="container" id="all-tricks">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                {% for trick in tricks %}
+                    <div class="card mb-4">
+                        <img src="https://picsum.photos/300/200" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <a href="trick/{{ trick.id }}"><h5
+                                        class="card-title">{{ trick.name }}</h5></a>
+                        </div>
+                    </div>
+                {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
                 <div class="col">
                     <div class="card">
-                        <img src="https://picsum.photos/300/300" alt="image of trick" class="img-fluid">
+                        <img src="https://picsum.photos/300/200" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h4 class="card-title">Super Chaise en bois</h4>
-                            <p class="cart-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias,
-                                natus.</p>
-                            <a href="#" class="btn btn-primary btn-sm">Détails</a>
-                            <a href="#" class="btn btn-success btn-sm">Ajouter</a>
+                            <a href="{{ path('trick_new') }}" class="btn btn-danger">Create new trick</a>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+            <ul class="pagination">
+
+                {% for item in 1..((total / limit)|round(0, 'ceil')) %}
+                    <a href="?page={{ item }}">{{ item }}</a>
+
+                {% endfor %}
+            </ul>
+
         </div>
 
     </div>
