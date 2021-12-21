@@ -13,6 +13,7 @@ class TrickFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         for ($j = 1; $j <= 30; $j++) {
+            $user = $this->getReference('user_'. rand( 1, 3 ));
             $category = $this->getReference('category_'. rand( 1, 3 ));
             $trick = new Trick();
             $trick->setName("Lorem ipsum dolor $j")
@@ -22,7 +23,9 @@ class TrickFixtures extends Fixture
                                                    </p>")
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
-                ->setCategory($category);
+                ->setCategory($category)
+                ->setUser($user)
+            ;
             $manager->persist($trick);
             $this->addReference('trick_' . $j, $trick);
         }
