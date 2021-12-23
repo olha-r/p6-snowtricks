@@ -8,6 +8,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,7 +26,13 @@ class TrickType extends AbstractType
                     'choice_label'          => 'name',
                     'expanded'              => true,
                 ]
-            );
+            )
+        ->add('medias', FileType::class, [
+            'multiple' => true,
+            'mapped' => false,
+            'required' => false
+        ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

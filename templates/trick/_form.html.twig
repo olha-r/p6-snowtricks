@@ -1,5 +1,17 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 {{ form_start(form) }}
     {{ form_widget(form) }}
+
+{% if app.request.attributes.get('_route') == 'trick_edit' %}
+    <h2>Medias</h2>
+    {% for media in trick.media %}
+        <div>
+            <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media" width="150">
+   {#        <a href="{{ path('trick_delete_media', {'id': media.id}) }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">Supprimer</a>
+   #}
+        </div>
+    {% endfor %}
+{% endif %}
+
 <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
