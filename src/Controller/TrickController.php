@@ -36,8 +36,8 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUser($security->getUser());
-            $trick->setCreatedAt(new \DateTime());
-            $trick->setUpdatedAt(new \DateTime());
+            $trick->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime());
             $medias = $form->get('medias')->getData();
             foreach ($medias as $m) {
                 //File name generation

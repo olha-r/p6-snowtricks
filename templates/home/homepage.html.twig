@@ -3,7 +3,7 @@
 {% block title %}Snowtricks{% endblock %}
 
 {% block body %}
-    <div id="home-header"">
+    <div id="home-header">
         <div class="jumbotron">
             <div class="container">
                 <div class="row justify-content-md-center">
@@ -21,16 +21,28 @@
                 {% for trick in tricks %}
                     <div class="card mb-4">
                         <img src="https://picsum.photos/300/200" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <a href="trick/{{ trick.id }}"><h5
-                                        class="card-title">{{ trick.name }}</h5></a>
+                        <div class="card-body row">
+                            <div class="col-10">
+                                <a href="trick/{{ trick.id }}"><h5
+                                            class="card-title">{{ trick.name }}</h5></a>
+                            </div>
+                            {% if app.user %}
+                            <div class="col-1">
+                                <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i class="fas fa-pencil-alt"></i></a>
+                            </div>
+                            <div class="col-1">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            {% endif %}
                         </div>
+
                     </div>
                 {% else %}
                     <tr>
                         <td colspan="6">no records found</td>
                     </tr>
                 {% endfor %}
+                {% if app.user %}
                 <div class="col">
                     <div class="card">
                         <img src="https://picsum.photos/300/200" class="card-img-top" alt="...">
@@ -39,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
             <ul class="pagination">
 
