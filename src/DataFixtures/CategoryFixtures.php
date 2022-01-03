@@ -10,7 +10,8 @@ class CategoryFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager): void
-    {$categories = [
+    {
+        $categories = [
         1 => [
             'name' => 'Grabs'
         ],
@@ -20,6 +21,18 @@ class CategoryFixtures extends Fixture
         3 => [
             'name' => 'Flips'
         ],
+        4 => [
+            'name' => 'Rotations désaxées'
+        ],
+        5 => [
+            'name' => 'Slides'
+        ],
+        6 => [
+            'name' => 'One foot'
+        ],
+        7 => [
+            'name' => 'Old school'
+        ]
     ];
 
         foreach ($categories as $key => $value) {

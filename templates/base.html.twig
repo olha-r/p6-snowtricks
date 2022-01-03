@@ -26,6 +26,7 @@
 
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('home') }}">Accueil
                             <span class="visually-hidden">(current)</span>
@@ -34,6 +35,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('home') }}">Tricks</a>
                     </li>
+
 
                     {% if not app.user %}
                         <li class="nav-item">
@@ -51,6 +53,8 @@
             </div>
         </div>
     </nav>
-        {% block body %}{% endblock %}
+
+    {% block body %}{% endblock %}
+
     </body>
 </html>
