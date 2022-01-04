@@ -41,5 +41,9 @@ html {
 
 a {
   text-decoration:none;
-  color: #FA9421;
+/*  color: #FA9421;*/
+}
+
+.card {
+  margin: 0.1rem;
 }
