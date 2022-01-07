@@ -3,15 +3,9 @@
 {% block title %}Snowtricks{% endblock %}
 
 {% block body %}
-    <div id="home-header">
-        <div class="jumbotron">
-            <div class="container">
-                <div class="row justify-content-md-center">
-                    <div id="header-title" class="col-md-6">
-                        <h1>Snowtricks</h1>
-                    </div>
-                </div>
-            </div>
+    <div class="jumbotron">
+        <div class="col-md-6 header-title">
+            <h1>Snowtricks</h1>
         </div>
     </div>
 
@@ -29,7 +23,9 @@
                             <a href="trick/{{ trick.slug }}"><h5
                                         class="card-title">{{ trick.name }}</h5></a>
                         </div>
+                        <div class="col">
                         {% if app.user %}
+
                             <div class="col-1">
                                 <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
                                             class="fas fa-pencil-alt"></i></a>
@@ -39,13 +35,12 @@
                                     <i class="fas fa-trash-alt"></i></a>
                             </div>
                         {% endif %}
+                        </div>
                     </div>
 
                 </div>
             {% else %}
-                <tr>
-                    <td colspan="6">no records found</td>
-                </tr>
+                    <p>Il n'a aucun trick</p>
             {% endfor %}
         </div>
         <ul class="pagination">

@@ -4,28 +4,41 @@
 
 {% block body %}
 
+    <section class="info-trick">
+        <div class="main-image">
+            <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="main trick image">
+            <div class="btn-trick">
+                <button class="btn btn-trick-edit"><a href="{{ path('trick_edit', {'id': trick.id}) }}"><i
+                                class="fas fa-pencil-alt fa-lg"></i></a></button>
+                <div class="btn-trick-delete"> {{ include('trick/_delete_form.html.twig') }}</div>
+            </div>
+        </div>
 
-<div class="trickInfo container-fluid">
-    <div class="row">
+        <div class="trick-details">
+            <p>Category: {{ trick.category.name }}</p>
+            <p>Ajouté le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</p>
+            {% if trick.updatedAt %}
+                <p>Mise à jour le {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y H:i') : '' }}</p>
+            {% endif %}
+            <p>Auteur: {{ trick.user.username }}</p>
+            <p> {{ trick.comments| length }} commentaires</p>
+        </div>
 
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Picswiss_VD-44-23.jpg"
-                 alt="image cap">
-                <div class="card-body">
-                    <div class="col-4">
-                        <link type="button" class="link-dark"><a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a></link>
-                    </div>
-                    <h5 class="card-title">{{ trick.name }}</h5>
-                    <p class="card-text">{{ trick.description|raw }}</p>
-                    <p class="card-text"><small class="text-muted"> Ajouté
-                            le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</small></p>
-                    {% if trick.updatedAt %}
-                        <p class="card-text"><small class="text-muted">Dernière mise à jour
-                                le {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y H:i') : '' }}</small></p>
-                    {% endif %}
-
-                    <p>Category: <a href="#" class="link-success">{{ trick.category.name }}</a></p>
+        <div class="trick-images">
+            {% for media in trick.media %}
+                <div>
+                    <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
+                    {# <a href="{{ path('trick_delete_media', {'id': media.id}) }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">Supprimer</a>
+                    #}
                 </div>
-                <div class="row justify-content-md-center">
+            {% endfor %}
+            {# <link type="button" class="link-dark"> #}
+            {# <a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a> #}
+
+        </div>
+
+        <div class="trick-videos">
+
 
                     <div class="col-4">
                         <button type="button" class="btn btn-danger btn-lg"><a
@@ -34,42 +47,52 @@
                     <div class="col"> {{ include('trick/_delete_form.html.twig') }}</div>
                 </div>
             </div>
+
         </div>
-        <div class="col-6">
-rgr
+        <hr>
+        <div class="trick-description">
+            <h5 class="card-title">{{ trick.name }}</h5>
+            <p class="card-text">{{ trick.description|raw }}</p>
         </div>
-    </div>
+        <hr>
 
 
-        <section id="comments">
-            <h4> {{ trick.comments| length  }} Commentaires:</h4>
-            {% for comment in comments %}
+        {# <div class="col-4"> #}
+        {# <button type="button" class="btn btn-warning btn-lg"><a #}
+        {# href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a></button> #}
+        {# </div> #}
+        {# <div class="col"> {{ include('trick/_delete_form.html.twig') }}</div> #}
 
-                <div class="comment col-6">
-                    <div class="row">
-                        <div class="col-3">
+        <div class="comment-form">
 
-                            <small class="text-muted">  {{ comment.createdAt ? comment.createdAt|date('d/m/Y H:i') : '' }}  </small>
-                        </div>
-                        <div class="col">
-                            {{ comment.content|raw }}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
             {% if app.user %}
-
-                   {{ form_start(commentForm) }}
-                  {{ form_row(commentForm.content) }}
-                  <button type="submit" class="btn btn-success">Ajouter commentaire</button>
-                  {{ form_end(commentForm) }}
+                {{ form_start(commentForm) }}
+                {{ form_row(commentForm.content) }}
+                <button type="submit" class="btn btn-success btn-comment">Ajouter commentaire</button>
+                {{ form_end(commentForm) }}
 
             {% else %}
                 <h4>Vous ne pouvez pas commenter si vous n'ètes pas connecté</h4>
                 <a href="{{ path('app_login') }}" class="btn btn-primary">Connexion</a>
             {% endif %}
-        </section>
+        </div>
 
-</div>
+        <div class="comments">
+            <h4> {{ trick.comments| length }} commentaires:</h4>
+            {% for comment in comments %}
+                <div class="comment row">
+                    <div class="col-2">
+                        <p>{{ comment.user.username }}</p>
+                    </div>
+                    <div class="col">
+                        <small class="text-muted"> publié
+                            le {{ comment.createdAt ? comment.createdAt|date('d/m/Y H:i') : '' }}  </small>
+                        <p>{{ comment.content|raw }}</p>
+                        <hr>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 
 {% endblock %}
