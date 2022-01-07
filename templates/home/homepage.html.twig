@@ -9,30 +9,21 @@
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="all-tricks">
         {% if app.user %}
             <a href="{{ path('trick_new') }}" class="btn btn-danger">Create new trick</a>
+
         {% endif %}
-
-        <div class="all-tricks">
+        <div class="row row-cols-5">
             {% for trick in tricks %}
-
-                <div class="trick-card">
-{#                    {% if trick.media|length > 0 %}#}
-                        {% for media in trick.media %}
-                            <img class="card-image" src="{{
-                            trick.media|length > 0 ?
-                                trick.media.first.name: asset('/uploads/'~ media.name)
-
-                            }}" alt="main trick image">
-                        {% endfor %}
-{#                    {% else %}#}
-                        <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}" alt="main trick image">
-{#                    {% endif %}#}
-{#                    <img src="https://picsum.photos/300/200" class="card-img-top" alt="trick image">#}
-                    <div class="card-body">
-                            <a href="trick/{{ trick.id }}"><h5 class="card-title">{{ trick.name }}</h5></a>
-
+                <div class="card border-primary">
+                    <img src="https://picsum.photos/300/200" class="card-img-top" alt="...">
+                    <div class="card-body row">
+                        <div class="col-8">
+                            <a href="trick/{{ trick.slug }}"><h5
+                                        class="card-title">{{ trick.name }}</h5></a>
+                        </div>
+                        <div class="col">
                         {% if app.user %}
 
                             <div class="col-1">
@@ -44,7 +35,9 @@
                                     <i class="fas fa-trash-alt"></i></a>
                             </div>
                         {% endif %}
+                        </div>
                     </div>
+
                 </div>
             {% else %}
                     <p>Il n'a aucun trick</p>
