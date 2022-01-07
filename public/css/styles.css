@@ -2,37 +2,32 @@ html {
   height: 100%;
 }
 
-#index .row {
-  margin: 0 auto;
+body {
+  color: #023047;
 }
 
-#home-header{
+/*h1, h2, h3, h4, h5 {*/
+/*  color: #3c6e71  ;*/
+/*}*/
+
+.jumbotron {
   min-height: 800px;
-  width:100%;
-  margin:0;
-  padding:0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   background: url("../images/snowboard-2.jpeg") no-repeat fixed;
   background-size: cover;
-  text-align: center;
-  position:relative;
+  position: relative;
 
 }
-#header-title {
+
+.header-title {
   position: absolute;
-  left: 50%!important;
-  z-index: 10;
-  color: #FA9421;
+  left: 30%;
+  top: 55%;
   text-align: center;
-  top: 50%!important;
-  transform: translate(-50%, -50%);
-  width: fit-content;
-  padding: 50px
 }
 
-#index {
-  background-color: #f1f1f1;
-  width: 100%;
-}
 
 #show-trick {
   margin: 40px 20px 30px;
@@ -40,10 +35,69 @@ html {
 }
 
 a {
-  text-decoration:none;
-/*  color: #FA9421;*/
+  text-decoration: none;
+  /*  color: #FA9421;*/
 }
 
-.card {
-  margin: 0.1rem;
+/* Trick detail page */
+.info-trick {
+  width: 1000px;
+  margin: 0 auto 40px;
+}
+
+.first-image {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.main-image {
+  position: relative;
+  background-color: #edf2f4;
+  border-radius: 20px;
+}
+
+.btn-trick {
+  display: inline-flex;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+/*.btn-trick-delete, .btn-trick-edit {*/
+/*  background-color: white;*/
+/*  border-radius: 10px;*/
+/*  opacity: 70%;*/
+/*}*/
+
+i {
+  color: #023047;
+}
+
+.trick-details, .trick-images, .trick-videos, .trick-description, .comments, .comment-form {
+  background-color: #edf2f4;
+  border-radius: 10px;
+  padding: 20px 30px;
+}
+
+.trick-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-form {
+  margin: 10px 0;
+  text-align: end;
+}
+
+.comment {
+  display: flex;
+
+}
+
+.btn-comment {
+  margin: 20px 0 0;
+}
+
+.btn {
+  border-radius: 5px;
 }
