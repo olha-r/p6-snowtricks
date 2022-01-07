@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Trick;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class TrickFixtures extends Fixture
 {
@@ -65,6 +66,7 @@ class TrickFixtures extends Fixture
                 'name' => 'Method Air'
             ]
         ];
+        $slugger = new AsciiSlugger();
 
         for ($j = 1; $j <= 30; $j++) {
             $user = $this->getReference('user_'. rand( 1, 5 ));
@@ -78,6 +80,7 @@ class TrickFixtures extends Fixture
                 ->setCreatedAt(new \DateTime())
                 ->setCategory($category)
                 ->setUser($user)
+                ->setSlug($slugger->slug($trick->getName()))
             ;
             $manager->persist($trick);
             $this->addReference('trick_' . $j, $trick);

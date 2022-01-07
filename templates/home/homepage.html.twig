@@ -26,16 +26,16 @@
                     <img src="https://picsum.photos/300/200" class="card-img-top" alt="...">
                     <div class="card-body row">
                         <div class="col-8">
-                            <a href="trick/{{ trick.id }}"><h5
+                            <a href="trick/{{ trick.slug }}"><h5
                                         class="card-title">{{ trick.name }}</h5></a>
                         </div>
                         {% if app.user %}
                             <div class="col-1">
-                                <a href="{{ path('trick_edit', {'id': trick.id}) }}"><i
+                                <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
                                             class="fas fa-pencil-alt"></i></a>
                             </div>
                             <div class="col-1">
-                                <a href="{{ path('trick_delete', {'id': trick.id}) }}">
+                                <a href="{{ path('trick_delete', {'slug': trick.slug}) }}">
                                     <i class="fas fa-trash-alt"></i></a>
                             </div>
                         {% endif %}

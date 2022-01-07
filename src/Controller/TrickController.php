@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @Route("/trick")
@@ -32,12 +33,15 @@ class TrickController extends AbstractController
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
+        $slugger = new AsciiSlugger();
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick->setUser($security->getUser());
-            $trick->setCreatedAt(new \DateTime())
-                ->setUpdatedAt(new \DateTime());
+            $trick->setUser($security->getUser())
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime())
+                ->setSlug($slugger->slug($trick->getName()))
+            ;
             $medias = $form->get('medias')->getData();
             foreach ($medias as $m) {
                 //File name generation
@@ -65,12 +69,12 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="trick_show", methods={"GET", "POST"})
+     * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show($id, Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
+    public function show($slug, Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
         $comment = $commentRepository->findBy([
-            'trick' => $id
+            'trick' => $slug
         ]);
 
         $new_comment = new Comment();
@@ -86,7 +90,7 @@ class TrickController extends AbstractController
             $entityManager->persist($new_comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
 
         }
 
@@ -99,7 +103,7 @@ class TrickController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="trick_edit", methods={"GET", "POST"})
+     * @Route("/{slug}/edit", name="trick_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
     {
@@ -124,7 +128,7 @@ class TrickController extends AbstractController
             }
             $entityManager->flush();
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trick/edit.html.twig', [
@@ -134,11 +138,11 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="trick_delete", methods={"POST"})
+     * @Route("/{slug}", name="trick_delete", methods={"POST"})
      */
     public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->request->get('_token'))) {
             $entityManager->remove($trick);
             $entityManager->flush();
         }
