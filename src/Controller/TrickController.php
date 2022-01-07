@@ -8,6 +8,7 @@ use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
+use App\Repository\MediaRepository;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,6 +52,7 @@ class TrickController extends AbstractController
                 $media = new Media();
                 $media->setName($file);
                 $trick->addMedia($media);
+
             }
             $entityManager->persist($trick);
             $entityManager->flush();
@@ -67,7 +69,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/{id}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show($id, Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security, TrickRepository $trickRepository): Response
+    public function show($id,  Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security, MediaRepository $mediaRepository): Response
     {
         $comment = $commentRepository->findBy([
             'trick' => $id
