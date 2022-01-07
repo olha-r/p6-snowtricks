@@ -16,7 +16,7 @@ class HomeController extends AbstractController
 
     public function index(TrickRepository $repo, Request $request): Response
     {
-        $limit = 15;
+        $limit = 6;
 
         $page = (int)$request->query->get("page", 1);
 

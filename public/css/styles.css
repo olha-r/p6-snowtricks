@@ -10,6 +10,7 @@ body {
 /*  color: #3c6e71  ;*/
 /*}*/
 
+/* Home page */
 .jumbotron {
   min-height: 800px;
   width: 100%;
@@ -18,7 +19,6 @@ body {
   background: url("../images/snowboard-2.jpeg") no-repeat fixed;
   background-size: cover;
   position: relative;
-
 }
 
 .header-title {
@@ -28,6 +28,25 @@ body {
   text-align: center;
 }
 
+.all-tricks {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-content: center;
+  justify-content: center;
+  padding: 25px 50px;
+}
+
+.trick-card {
+  width: 350px;
+  margin: 25px 25px 0;
+  /*border: solid #edf2f4;*/
+  /*border-radius: 8px;*/
+}
+
+.card-image {
+  width: 350px;
+  height: 250px;
+}
 
 #show-trick {
   margin: 40px 20px 30px;
