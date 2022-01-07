@@ -39,6 +39,15 @@
 
         <div class="trick-videos">
 
+
+                    <div class="col-4">
+                        <button type="button" class="btn btn-danger btn-lg"><a
+                                    href="{{ path('trick_edit', {'slug': trick.slug}) }}">edit</a></button>
+                    </div>
+                    <div class="col"> {{ include('trick/_delete_form.html.twig') }}</div>
+                </div>
+            </div>
+
         </div>
         <hr>
         <div class="trick-description">
