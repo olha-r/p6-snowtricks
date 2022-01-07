@@ -16,6 +16,7 @@
 
         <div class="all-tricks">
             {% for trick in tricks %}
+
                 <div class="trick-card">
 {#                    {% if trick.media|length > 0 %}#}
                         {% for media in trick.media %}
@@ -31,10 +32,17 @@
 {#                    <img src="https://picsum.photos/300/200" class="card-img-top" alt="trick image">#}
                     <div class="card-body">
                             <a href="trick/{{ trick.id }}"><h5 class="card-title">{{ trick.name }}</h5></a>
+
                         {% if app.user %}
-                            <button class="btn btn-trick-edit"><a href="{{ path('trick_edit', {'id': trick.id}) }}"><i
-                                            class="fas fa-pencil-alt fa-lg"></i></a></button>
-                            <div class="btn-trick-delete"> {{ include('trick/_delete_form.html.twig') }}</div>
+
+                            <div class="col-1">
+                                <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
+                                            class="fas fa-pencil-alt"></i></a>
+                            </div>
+                            <div class="col-1">
+                                <a href="{{ path('trick_delete', {'slug': trick.slug}) }}">
+                                    <i class="fas fa-trash-alt"></i></a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
