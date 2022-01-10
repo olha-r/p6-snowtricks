@@ -3,10 +3,11 @@
 {% block title %}Edit Trick{% endblock %}
 
 {% block body %}
-
+<section class="info-trick">
         {{ include('trick/_form.html.twig', {'button_label': 'Modifier'}) }}
         <a href="{{ path('home') }}">back to list</a>
         {{ include('trick/_delete_form.html.twig') }}
+</section>
 
 {% endblock %}
 

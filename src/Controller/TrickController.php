@@ -74,10 +74,10 @@ class TrickController extends AbstractController
 
     public function show($slug, Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
-        $comment = $commentRepository->findBy([
-            'trick' => $slug
-        ]);
 
+        $comment = $commentRepository->findBy([
+            'trick' => $trick->getId()
+        ]);
         $new_comment = new Comment();
         $form = $this->createForm(CommentType::class, $new_comment);
 

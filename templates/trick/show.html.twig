@@ -6,14 +6,23 @@
 
     <section class="info-trick">
         <div class="main-image">
-            <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="main trick image">
-            <div class="btn-trick">
-                <button class="btn btn-trick-edit"><a href="{{ path('trick_edit', {'id': trick.id}) }}"><i
-                                class="fas fa-pencil-alt fa-lg"></i></a></button>
-                <div class="btn-trick-delete"> {{ include('trick/_delete_form.html.twig') }}</div>
-            </div>
-        </div>
+            {% if trick.media %}
+                {% for media in trick.media %}
+                    <img class="first-image" src="{{ asset('/uploads/'~ media.name) }}" alt="main trick image">
+                {% endfor %}
+            {% else %}
+                <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
+            {% endif %}
 
+            {% if app.user %}
+
+                <div class="btn-trick">
+                    <button class="btn btn-trick-edit"><a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
+                                    class="fas fa-pencil-alt fa-lg"></i></a></button>
+                    <div class="btn-trick-delete"> {{ include('trick/_delete_form.html.twig') }}</div>
+                </div>
+            {% endif %}
+        </div>
         <div class="trick-details">
             <p>Category: {{ trick.category.name }}</p>
             <p>Ajouté le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</p>
@@ -34,21 +43,19 @@
             {% endfor %}
             {# <link type="button" class="link-dark"> #}
             {# <a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a> #}
-
+            {# {% include('trick/_carousel.html.twig') %} #}
         </div>
 
         <div class="trick-videos">
 
 
-                    <div class="col-4">
-                        <button type="button" class="btn btn-danger btn-lg"><a
-                                    href="{{ path('trick_edit', {'slug': trick.slug}) }}">edit</a></button>
-                    </div>
-                    <div class="col"> {{ include('trick/_delete_form.html.twig') }}</div>
-                </div>
-            </div>
-
+{#            <div class="col-4">#}
+{#                <button type="button" class="btn btn-danger btn-lg"><a#}
+{#                            href="{{ path('trick_edit', {'slug': trick.slug}) }}">edit</a></button>#}
+{#            </div>#}
+{#            <div class="col"> {{ include('trick/_delete_form.html.twig') }}</div>#}
         </div>
+
         <hr>
         <div class="trick-description">
             <h5 class="card-title">{{ trick.name }}</h5>
@@ -79,13 +86,14 @@
 
         <div class="comments">
             <h4> {{ trick.comments| length }} commentaires:</h4>
+
             {% for comment in comments %}
                 <div class="comment row">
                     <div class="col-2">
                         <p>{{ comment.user.username }}</p>
                     </div>
                     <div class="col">
-                        <small class="text-muted"> publié
+                        <small class="text-muted"> ajouté
                             le {{ comment.createdAt ? comment.createdAt|date('d/m/Y H:i') : '' }}  </small>
                         <p>{{ comment.content|raw }}</p>
                         <hr>

@@ -6,47 +6,51 @@
     <div class="jumbotron">
         <div class="col-md-6 header-title">
             <h1>Snowtricks</h1>
+            <a class="arrow-down" href="#all-tricks"><i class="fas fa-arrow-down fa-3x"></i></a>
         </div>
     </div>
 
-    <div class="container-fluid" id="all-tricks">
-        {% if app.user %}
-            <a href="{{ path('trick_new') }}" class="btn btn-danger">Create new trick</a>
+    <div class="container-fluid tricks">
 
-        {% endif %}
-        <div class="row row-cols-5">
+
+        <div class="all-tricks" id="all-tricks">
             {% for trick in tricks %}
-                <div class="card border-primary">
-                    <img src="https://picsum.photos/300/200" class="card-img-top" alt="...">
-                    <div class="card-body row">
-                        <div class="col-8">
-                            <a href="trick/{{ trick.slug }}"><h5
-                                        class="card-title">{{ trick.name }}</h5></a>
-                        </div>
-                        <div class="col">
-                        {% if app.user %}
+                <div class="trick-card">
+                    {# {% if trick.media|length > 0 %} #}
+                    {% for media in trick.media %}
+                        {% if trick.media|length >= 1 %}
+                            <img class="card-image" src="{{ asset('/uploads/'~ media.name) }}" alt="main trick image">
+                        {% else %}
+                            <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}"
+                                 alt="default trick image">
+                        {% endif %}
+                    {% endfor %}
 
-                            <div class="col-1">
+                    {# {% endif %} #}
+                    {# <img src="https://picsum.photos/300/200" class="card-img-top" alt="trick image"> #}
+                    <div class="card-body">
+                        <a href="trick/{{ trick.slug }}"><h5 class="card-title">{{ trick.name }}</h5></a>
+                        {% if app.user %}
+                            <div class="btn-trick-modify">
                                 <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
                                             class="fas fa-pencil-alt"></i></a>
-                            </div>
-                            <div class="col-1">
+
                                 <a href="{{ path('trick_delete', {'slug': trick.slug}) }}">
                                     <i class="fas fa-trash-alt"></i></a>
                             </div>
                         {% endif %}
-                        </div>
                     </div>
-
                 </div>
             {% else %}
-                    <p>Il n'a aucun trick</p>
+                <p>Il n'a aucun trick</p>
             {% endfor %}
         </div>
+
         <ul class="pagination">
             {% for item in 1..((total / limit)|round(0, 'ceil')) %}
                 <a href="?page={{ item }}">{{ item }}</a>
             {% endfor %}
         </ul>
+        <a class="arrow-up" href="#all-tricks"><i class="fas fa-arrow-up fa-3x"></i></a>
     </div>
 {% endblock %}
