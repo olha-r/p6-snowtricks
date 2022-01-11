@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Service\PaginationService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,24 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  */
 class TrickController extends AbstractController
 {
+
+    /**
+     * @Route("/page/{page<\d+>}", name="trick_page", methods={"GET"})
+     * @Route("/page/{page<\d+>}/{limit}-per-page", name="trick_page_with_limit", methods={"GET"})
+     */
+    public function renderPaginatedTricks(TrickRepository $trickRepository, PaginationService $pagination)
+    {
+        $page = 1;
+        $limit = 6;
+        $queryBuilder = $trickRepository->createQueryBuilder('t')
+            ->orderBy('t.createdAt', 'DESC');
+
+        $options = $pagination->getRenderOptions('tricks', $queryBuilder, $limit, $page);
+
+        return $this->render('trick/list.html.twig', $options);
+    }
+
+
 
     /**
      * @Route("/new", name="trick_new", methods={"GET", "POST"})
