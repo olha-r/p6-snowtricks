@@ -6,13 +6,11 @@
     <div class="jumbotron">
         <div class="col-md-6 header-title">
             <h1>Snowtricks</h1>
-            <a class="arrow-down" href="#all-tricks"><i class="fas fa-arrow-down fa-3x"></i></a>
+            <a class="arrow-down-button" href="#all-tricks"><i class="fas fa-arrow-down fa-3x"></i></a>
         </div>
     </div>
 
     <div class="container-fluid tricks">
-
-
         <div class="all-tricks" id="all-tricks">
             {# {% for trick in tricks %} #}
             {# <div class="trick-card"> #}
@@ -44,6 +42,7 @@
             {# {% else %} #}
             {# <p>Il n'a aucun trick</p> #}
             {# {% endfor %} #}
+
             {{ render(path('trick_page_with_limit', {page: 1, limit: 6})) }}
             <span class="text-center w-100">
 			<a href="#" class="btn btn-light mx-auto w-75" id="loadmore">
@@ -58,7 +57,7 @@
         {# {% endfor %} #}
         {# </ul> #}
 
-        <a class="arrow-up" href="#all-tricks"><i class="fas fa-arrow-up fa-3x"></i></a>
+        <a class="arrow-up-button" href="#all-tricks"><i class="fas fa-arrow-up fa-3x"></i></a>
     </div>
 
 

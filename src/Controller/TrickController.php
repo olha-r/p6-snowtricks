@@ -31,9 +31,8 @@ class TrickController extends AbstractController
      * @Route("/page/{page<\d+>}", name="trick_page", methods={"GET"})
      * @Route("/page/{page<\d+>}/{limit}-per-page", name="trick_page_with_limit", methods={"GET"})
      */
-    public function renderPaginatedTricks(TrickRepository $trickRepository, PaginationService $pagination)
+    public function renderPaginatedTricks(TrickRepository $trickRepository, PaginationService $pagination, $page = 1)
     {
-        $page = 1;
         $limit = 6;
         $queryBuilder = $trickRepository->createQueryBuilder('t')
             ->orderBy('t.createdAt', 'DESC')
@@ -95,7 +94,7 @@ $trick->addVideo($video);
     }
 
     /**
-     * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
+     * @Route("/{slug}", name="trick_show", methods={"GET"})
      */
 
     public function show($slug, Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
@@ -154,7 +153,7 @@ $trick->addVideo($video);
                 $media->setName($file);
                 $trick->addMedia($media);
             }
-            
+
             $videos = $form->get('videos')->getData();
             foreach ($videos as $video) {
                 $video = new Video();
@@ -177,6 +176,7 @@ $trick->addVideo($video);
      */
     public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
     {
+
         if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->request->get('_token'))) {
             $entityManager->remove($trick);
             $entityManager->flush();
@@ -184,25 +184,25 @@ $trick->addVideo($video);
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
-
-    /**
-     * @Route("/delete/media/{id}", name="trick_delete_media", methods={"DELETE"})
-     */
-    public function deleteMedias(Media $media, Request $request, EntityManagerInterface $entityManager)
-    {
-        $data = json_decode($request->getContent(), true);
-        if ($this->isCsrfTokenValid('delete'.$media->getId(), $data['_token'])){
-            $name = $media->getName();
-            unlink($this->getParameter('media_directory').'/'.$name);
-
-            $entityManager->remove($media);
-            $entityManager->flush();
-
-            return new JsonResponse(['success' => 1]);
-        }
-        else {
-            return new JsonResponse(['error' => 'Token Invalid'], 400);
-        }
-    }
+//
+//    /**
+//     * @Route("/delete/media/{id}", name="trick_delete_media", methods={"DELETE"})
+//     */
+//    public function deleteMedias(Media $media, Request $request, EntityManagerInterface $entityManager)
+//    {
+//        $data = json_decode($request->getContent(), true);
+//        if ($this->isCsrfTokenValid('delete'.$media->getId(), $data['_token'])){
+//            $name = $media->getName();
+//            unlink($this->getParameter('media_directory').'/'.$name);
+//
+//            $entityManager->remove($media);
+//            $entityManager->flush();
+//
+//            return new JsonResponse(['success' => 1]);
+//        }
+//        else {
+//            return new JsonResponse(['error' => 'Token Invalid'], 400);
+//        }
+//    }
 
 }

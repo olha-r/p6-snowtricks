@@ -19,7 +19,7 @@
     <hr>
     <div class="trick-description">
         <h4 class="card-title">{{ form_row(form.name, {'attr': {'placeholder': 'Titre de trick', 'label' : 'Titre de trick'}}) }}</h4>
-        <h4 class="card-text">{{ form_row(form.description, {'attr': {'placeholder': 'Description'|raw, 'label' : 'Titre de trick'}}) }}</h4>
+        <h4 class="card-text">{{ form_row(form.description|raw, {'attr': {'placeholder': 'Description', 'label' : 'Titre de trick'}}) }}</h4>
 
     </div>
 <div class="trick-images">
@@ -30,7 +30,7 @@
         {% for media in trick.media %}
             <div>
                 <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                <a href="{{ path('trick_delete_media', {'id': media.id}) }}">Supprimer</a>
+{#                <a href="{{ path('trick_delete_media', {'id': media.id}) }}">Supprimer</a>#}
                 {# data-delete data-token="{{ csrf_token('delete'~ media.id)}} #}
 
             </div>

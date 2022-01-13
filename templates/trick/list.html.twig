@@ -18,9 +18,14 @@
                     <div class="btn-trick-modify">
                         <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
                                     class="fas fa-pencil-alt"></i></a>
+{#<form action="{{ path('trick_delete', {'slug': trick.slug}) }}" method="post">#}
+{#                        <button>#}
+{#                            <i class="fas fa-trash-alt"></i></button>#}
+{#</form>#}
+                        {% embed "trick/_delete_form.html.twig" %}
+                            {% set btn = '<button class="btn btn-trick-delete"><i class="fas fa-trash-alt"></i></button>' %}
+                        {% endembed %}
 
-                        <a href="{{ path('trick_delete', {'slug': trick.slug}) }}">
-                            <i class="fas fa-trash-alt"></i></a>
                     </div>
                 {% endif %}
             </div>
