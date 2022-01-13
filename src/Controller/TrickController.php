@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Media;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
@@ -74,6 +75,13 @@ class TrickController extends AbstractController
                 $media->setName($file);
                 $trick->addMedia($media);
             }
+
+            $videos = $form->get('videos')->getData();
+            foreach ($videos as $video) {
+                $video = new Video();
+                $video->setName(md5(uniqid()));
+$trick->addVideo($video);
+            }
             $entityManager->persist($trick);
             $entityManager->flush();
 
@@ -131,6 +139,7 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUpdatedAt(new \DateTime());
+
             $medias = $form->get('medias')->getData();
             foreach ($medias as $m) {
                 //File name generation
@@ -145,6 +154,13 @@ class TrickController extends AbstractController
                 $media->setName($file);
                 $trick->addMedia($media);
             }
+            
+            $videos = $form->get('videos')->getData();
+            foreach ($videos as $video) {
+                $video = new Video();
+                $video->setName(md5(uniqid()));
+                $trick->addVideo($video);
+                    }
             $entityManager->flush();
 
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);

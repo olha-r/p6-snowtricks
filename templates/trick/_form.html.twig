@@ -14,42 +14,34 @@
     </div>
     <div class="trick-details">
         <p>Category: {{ form_row(form.category, {'label': false}) }}</p>
-
-
-{#        <p>Ajouté le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</p>#}
-{#        {% if trick.updatedAt %}#}
-{#            <p>Mise à jour le {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y H:i') : '' }}</p>#}
-{#        {% endif %}#}
-{#        <p>Auteur: {{ trick.user.username }}</p>#}
-{#        <p> {{ trick.comments| length }} commentaires</p>#}
-    </div>
-
-    <div class="trick-images">
-        <h4>Ajouter des médias</h4>
-        {{ form_row(form.medias, {'label': false}) }}
-        {% if app.request.attributes.get('_route') == 'trick_edit' %}
-
-            {% for media in trick.media %}
-                <div>
-                    <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                    <a href="{{ path('trick_delete_media', {'id': media.id}) }}">Supprimer</a>
-                    {# data-delete data-token="{{ csrf_token('delete'~ media.id)}} #}
-
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-
-    <div class="trick-videos">
-
     </div>
 
     <hr>
     <div class="trick-description">
-        <h5 class="card-title">{{ form_row(form.name, {'attr': {'placeholder': 'Titre de trick', 'label' : 'Titre de trick'}}) }}</h5>
-        <h5 class="card-text">{{ form_row(form.description, {'attr': {'placeholder': 'Description'|raw, 'label' : 'Titre de trick'}}) }}</h5>
+        <h4 class="card-title">{{ form_row(form.name, {'attr': {'placeholder': 'Titre de trick', 'label' : 'Titre de trick'}}) }}</h4>
+        <h4 class="card-text">{{ form_row(form.description, {'attr': {'placeholder': 'Description'|raw, 'label' : 'Titre de trick'}}) }}</h4>
 
     </div>
+<div class="trick-images">
+    <h4>Ajouter des images</h4>
+    {{ form_row(form.medias, {'label': false}) }}
+    {% if app.request.attributes.get('_route') == 'trick_edit' %}
+
+        {% for media in trick.media %}
+            <div>
+                <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
+                <a href="{{ path('trick_delete_media', {'id': media.id}) }}">Supprimer</a>
+                {# data-delete data-token="{{ csrf_token('delete'~ media.id)}} #}
+
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="trick-videos">
+    <h4>Ajouter des videos</h4>
+    {{ form_row(form.videos, {'label': false}) }}
+</div>
 
 <button class="btn btn-warning btn-lg">{{ button_label|default('Créer un trick') }}</button>
 {{ form_end(form) }}
