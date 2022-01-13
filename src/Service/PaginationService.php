@@ -20,12 +20,13 @@ class PaginationService
     /**
      * Return an array of options which can be used as arguments in a render function
      */
-    public function getRenderOptions(string $itemsName, $queryBuilder, int $limit = 6, int $page = 1): array
+    public function getRenderOptions(string $tricks, $queryBuilder, int $limit = 6, int $page = 1): array
     {
         $offset = (int)($page - 1) * $limit;
 
-        $nbItems = count($queryBuilder->getQuery()->getResult());
-        $lastPageNumber = ceil($nbItems / $limit);
+        $nbTricks = count($queryBuilder->getQuery()->getResult());
+
+        $lastPageNumber = ceil($nbTricks / $limit);
 
         // Add a limit and an offset to the query to filter query result
         $queryBuilder
@@ -39,7 +40,7 @@ class PaginationService
 
         // Build the array of options for the render function
         $options = [
-            $itemsName => $data,
+            $tricks => $data,
             'page' => $page,
             'limit' => $limit,
             'isLastPage' => $isLastPage

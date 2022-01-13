@@ -35,14 +35,13 @@ class TrickController extends AbstractController
         $page = 1;
         $limit = 6;
         $queryBuilder = $trickRepository->createQueryBuilder('t')
-            ->orderBy('t.createdAt', 'DESC');
+            ->orderBy('t.createdAt', 'DESC')
+        ;
 
         $options = $pagination->getRenderOptions('tricks', $queryBuilder, $limit, $page);
 
         return $this->render('trick/list.html.twig', $options);
     }
-
-
 
     /**
      * @Route("/new", name="trick_new", methods={"GET", "POST"})

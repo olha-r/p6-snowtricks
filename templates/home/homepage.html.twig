@@ -14,37 +14,37 @@
 
 
         <div class="all-tricks" id="all-tricks">
-{#            {% for trick in tricks %}#}
-{#                <div class="trick-card">#}
-{#                    #}{# {% if trick.media|length > 0 %} #}
-{#                    {% for media in trick.media %}#}
-{#                        {% if trick.media|length >= 1 %}#}
-{#                            <img class="card-image" src="{{ asset('/uploads/'~ media.name) }}" alt="main trick image">#}
-{#                        {% else %}#}
-{#                            <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}"#}
-{#                                 alt="default trick image">#}
-{#                        {% endif %}#}
-{#                    {% endfor %}#}
+            {# {% for trick in tricks %} #}
+            {# <div class="trick-card"> #}
+            {# #}{# {% if trick.media|length > 0 %} #}
+            {# {% for media in trick.media %} #}
+            {# {% if trick.media|length >= 1 %} #}
+            {# <img class="card-image" src="{{ asset('/uploads/'~ media.name) }}" alt="main trick image"> #}
+            {# {% else %} #}
+            {# <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}" #}
+            {# alt="default trick image"> #}
+            {# {% endif %} #}
+            {# {% endfor %} #}
 
-{#                    #}{# {% endif %} #}
-{#                    #}{# <img src="https://picsum.photos/300/200" class="card-img-top" alt="trick image"> #}
-{#                    <div class="card-body">#}
-{#                        <a href="trick/{{ trick.slug }}"><h5 class="card-title">{{ trick.name }}</h5></a>#}
-{#                        {% if app.user %}#}
-{#                            <div class="btn-trick-modify">#}
-{#                                <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i#}
-{#                                            class="fas fa-pencil-alt"></i></a>#}
+            {# #}{# {% endif %} #}
+            {# #}{# <img src="https://picsum.photos/300/200" class="card-img-top" alt="trick image"> #}
+            {# <div class="card-body"> #}
+            {# <a href="trick/{{ trick.slug }}"><h5 class="card-title">{{ trick.name }}</h5></a> #}
+            {# {% if app.user %} #}
+            {# <div class="btn-trick-modify"> #}
+            {# <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i #}
+            {# class="fas fa-pencil-alt"></i></a> #}
 
-{#                                <a href="{{ path('trick_delete', {'slug': trick.slug}) }}">#}
-{#                                    <i class="fas fa-trash-alt"></i></a>#}
-{#                            </div>#}
-{#                        {% endif %}#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% else %}#}
-{#                <p>Il n'a aucun trick</p>#}
-{#            {% endfor %}#}
-            {{ render(path('trick_page_with_limit', {page: 1, limit: 15})) }}
+            {# <a href="{{ path('trick_delete', {'slug': trick.slug}) }}"> #}
+            {# <i class="fas fa-trash-alt"></i></a> #}
+            {# </div> #}
+            {# {% endif %} #}
+            {# </div> #}
+            {# </div> #}
+            {# {% else %} #}
+            {# <p>Il n'a aucun trick</p> #}
+            {# {% endfor %} #}
+            {{ render(path('trick_page_with_limit', {page: 1, limit: 6})) }}
             <span class="text-center w-100">
 			<a href="#" class="btn btn-light mx-auto w-75" id="loadmore">
 				<i class="fas fa-spinner"></i>
@@ -52,11 +52,11 @@
 		</span>
         </div>
 
-{#        <ul class="pagination">#}
-{#            {% for item in 1..((total / limit)|round(0, 'ceil')) %}#}
-{#                <a href="?page={{ item }}">{{ item }}</a>#}
-{#            {% endfor %}#}
-{#        </ul>#}
+        {# <ul class="pagination"> #}
+        {# {% for item in 1..((total / limit)|round(0, 'ceil')) %} #}
+        {# <a href="?page={{ item }}">{{ item }}</a> #}
+        {# {% endfor %} #}
+        {# </ul> #}
 
         <a class="arrow-up" href="#all-tricks"><i class="fas fa-arrow-up fa-3x"></i></a>
     </div>
@@ -65,6 +65,8 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+            crossorigin="anonymous"></script>
     <script src="{{ asset('js/loadmore.js') }}"></script>
 {% endblock %}
