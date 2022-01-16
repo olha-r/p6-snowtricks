@@ -99,7 +99,6 @@ $trick->addVideo($video);
 
     public function show($slug, Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
-
         $comment = $commentRepository->findBy([
             'trick' => $trick->getId()
         ]);
@@ -126,7 +125,6 @@ $trick->addVideo($video);
             'commentForm' => $form
         ]);
     }
-
 
     /**
      * @Route("/{slug}/edit", name="trick_edit", methods={"GET", "POST"})

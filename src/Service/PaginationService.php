@@ -48,4 +48,5 @@ class PaginationService
 
         return $options;
     }
+
 }

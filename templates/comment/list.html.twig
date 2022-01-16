@@ -1,0 +1,21 @@
+{% for comment in comments %}
+    <div class="comment row">
+        <div class="col-2">
+            <p>{{ comment.user.username }}</p>
+        </div>
+        <div class="col">
+            <small class="text-muted"> ajouté
+                le {{ comment.createdAt ? comment.createdAt|date('d/m/Y H:i') : '' }}  </small>
+            <p>{{ comment.content|raw }}</p>
+            <hr>
+        </div>
+    </div>
+{% endfor %}
+
+{% if isLastPage == false %}
+    <span class="d-none">
+		{{ path('comment_page_with_limit', {trickId: trickId, page: page+1, limit: limit}) }}
+	</span>
+{% else %}
+    <span class="d-none"></span>
+{% endif %}
