@@ -85,6 +85,9 @@ a {
   margin-left: 25px;
 }
 
+.btn-trick-modify{
+  display: inline-flex;
+}
 /*#show-trick {*/
 /*  margin: 40px 20px 30px;*/
 /*  padding: 20px 10px;*/
@@ -99,15 +102,15 @@ a {
   margin: 0 auto 40px;
 }
 
-.first-image {
-  width: 100%;
-  border-radius: 20px 20px 0 0;
-}
-
 .main-image {
   position: relative;
   background-color: #edf2f4;
   border-radius: 20px;
+}
+
+.first-image {
+  width: 100%;
+  border-radius: 20px 20px 0 0;
 }
 
 .btn-trick {
@@ -139,6 +142,12 @@ i {
   justify-content: space-between;
   border-radius: 0 0 20px 20px;
   margin: 0;
+}
+
+.file-media img {
+  width: 350px;
+  height: 250px;
+  border-radius: 10px 10px 0 0;
 }
 
 .comment-form {

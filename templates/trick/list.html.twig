@@ -1,38 +1,33 @@
-    {% for trick in tricks %}
-        <div class="trick-card">
-            {# {% if trick.media|length > 0 %} #}
-            {% for media in trick.media %}
-                {% if trick.media|length >= 1 %}
-                    <img class="card-image" src="{{ asset('/uploads/'~ media.name) }}" alt="main trick image">
-                {% else %}
-                    <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}"
-                         alt="default trick image">
-                {% endif %}
-            {% endfor %}
+{% for trick in tricks %}
+    <div class="trick-card">
+        {% if trick.media[0] is defined %}
+            {% set firstImage = trick.media[0] %}
+            <img class="card-image" src="{{ asset('/uploads/'~ firstImage.name) }}" alt="main trick image">
+        {% else %}
+            <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
+        {% endif %}
+        <div class="card-body">
+            <a href="trick/{{ trick.slug }}"><h5 class="card-title">{{ trick.name }}</h5></a>
+            {% if app.user %}
+                <div class="btn-trick-modify">
 
-            {# {% endif %} #}
-            {# <img src="https://picsum.photos/300/200" class="card-img-top" alt="trick image"> #}
-            <div class="card-body">
-                <a href="trick/{{ trick.slug }}"><h5 class="card-title">{{ trick.name }}</h5></a>
-                {% if app.user %}
-                    <div class="btn-trick-modify">
-                        <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
-                                    class="fas fa-pencil-alt"></i></a>
-{#<form action="{{ path('trick_delete', {'slug': trick.slug}) }}" method="post">#}
-{#                        <button>#}
-{#                            <i class="fas fa-trash-alt"></i></button>#}
-{#</form>#}
-                        {% embed "trick/_delete_form.html.twig" %}
-                            {% set btn = '<button class="btn btn-trick-delete"><i class="fas fa-trash-alt"></i></button>' %}
-                        {% endembed %}
+                    <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
+                                class="fas fa-pencil-alt"></i></a>
+                    {# <form action="{{ path('trick_delete', {'slug': trick.slug}) }}" method="post"> #}
+                    {# <button> #}
+                    {# <i class="fas fa-trash-alt"></i></button> #}
+                    {# </form> #}
+                    {% embed "trick/_delete_form.html.twig" %}
+                        {% set btn = '<button class="btn btn-trick-del"><i class="fas fa-trash-alt"></i></button>' %}
+                    {% endembed %}
 
-                    </div>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
-    {% else %}
-        <p>Il n'a aucun trick</p>
-    {% endfor %}
+    </div>
+{% else %}
+    <p>Il n'a aucun trick</p>
+{% endfor %}
 
 {% if isLastPage == false %}
     <span class="d-none">

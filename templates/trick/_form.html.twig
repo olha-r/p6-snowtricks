@@ -3,14 +3,12 @@
 {# {{ form_widget(form) }} #}
 
     <div class="main-image">
-        {% if trick.media %}
-            {% for media in trick.media %}
-                <img class="first-image" src="{{ asset('/uploads/'~ media.name) }}" alt="main trick image">
-            {% endfor %}
+        {% if trick.media[0] is defined %}
+            {% set firstImage = trick.media[0] %}
+            <img class="first-image" src="{{ asset('/uploads/'~ firstImage.name) }}" alt="main trick image">
         {% else %}
             <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
         {% endif %}
-
     </div>
     <div class="trick-details">
         <p>Category: {{ form_row(form.category, {'label': false}) }}</p>
@@ -28,9 +26,9 @@
     {% if app.request.attributes.get('_route') == 'trick_edit' %}
 
         {% for media in trick.media %}
-            <div>
+            <div class="file-media">
                 <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-{#                <a href="{{ path('trick_delete_media', {'id': media.id}) }}">Supprimer</a>#}
+                {#                <a href="{{ path('trick_delete_media', {'id': media.id}) }}">Supprimer</a>#}
                 {# data-delete data-token="{{ csrf_token('delete'~ media.id)}} #}
 
             </div>
