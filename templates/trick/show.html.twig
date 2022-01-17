@@ -34,16 +34,16 @@
         </div>
 
         <div class="trick-images">
-            {% for media in trick.media %}
-                <div class="file-media">
-                    <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                    {# <a href="{{ path('trick_delete_media', {'id': media.id}) }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">Supprimer</a>
-                    #}
-                </div>
-            {% endfor %}
+{#            {% for media in trick.media %}#}
+{#                <div class="file-media">#}
+{#                    <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">#}
+{#                    #}{# <a href="{{ path('trick_delete_media', {'id': media.id}) }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">Supprimer</a>#}
+{#                    #}
+{#                </div>#}
+{#            {% endfor %}#}
             {# <link type="button" class="link-dark"> #}
             {# <a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a> #}
-            {# {% include('trick/_carousel.html.twig') %} #}
+             {% include('trick/_carousel.html.twig') %}
         </div>
 
         <div class="trick-videos">

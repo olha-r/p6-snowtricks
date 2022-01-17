@@ -7,7 +7,7 @@
         {{ include('trick/_form.html.twig', {'button_label': 'Modifier'}) }}
         <a href="{{ path('home') }}">back to list</a>
         {% embed "trick/_delete_form.html.twig" %}
-                {% set btn = '<button class="btn btn-danger btn-lg">Supprimer</button>' %}
+                {% set btn = '<button class="btn btn-outline-danger btn-lg">Supprimer</button>' %}
         {% endembed %}
 </section>
 

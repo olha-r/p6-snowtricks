@@ -27,6 +27,10 @@ a {
 }
 
 .header-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 300px;
   text-align: center;
 }
 
@@ -79,21 +83,28 @@ a {
 .card-body {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.btn-trick-modify a {
-  margin-left: 25px;
-}
+/*.btn-trick-modify a {*/
+/*  margin-left: 25px;*/
+/*}*/
 
 .btn-trick-modify{
-  display: inline-flex;
+  display: flex;
+  align-items: center;
 }
 /*#show-trick {*/
 /*  margin: 40px 20px 30px;*/
 /*  padding: 20px 10px;*/
 /*}*/
 
-
+.btn-trick-del {
+padding: 0;
+  border: 0;
+  margin-left: 20px;
+  align-self: stretch;
+}
 /***********************************/
 /******** Trick detail page ********/
 /***********************************/
@@ -145,9 +156,10 @@ i {
 }
 
 .file-media img {
-  width: 350px;
-  height: 250px;
+  width: 250px;
+  height: 150px;
   border-radius: 10px 10px 0 0;
+  margin: 0.5em 2em;
 }
 
 .comment-form {
@@ -174,4 +186,25 @@ i {
 
 .comment-form textarea {
   min-height: 110px;
+}
+
+
+/*** Carousel ****/
+.trick-images {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-content: center;
+  justify-content: center;
+}
+
+
+/***********************************/
+/***** Registration, login pages ***/
+/***********************************/
+.registration, .login {
+  width: 500px;
+}
+
+.registration .form-group, .login .form-group {
+  margin: 15px 0;
 }
