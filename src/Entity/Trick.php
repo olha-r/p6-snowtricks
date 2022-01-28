@@ -65,6 +65,10 @@ class Trick
 
     /**
      * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     * @Assert\File(
+     *     mimeTypes={"image/jpeg", "image/png"},
+     *     maxSize="1074000000"
+     * )
      */
     private $media;
 

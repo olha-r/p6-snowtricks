@@ -12,3 +12,15 @@
 }
 
  */
+document.getElementById('js-img-delete').addEventListener('click', onClickBtnDeleteImage);
+function onClickBtnDeleteImage(event)
+{
+    event.preventDefault();
+
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'demo.txt', true);
+
+        console.log(xhr);
+
+}
