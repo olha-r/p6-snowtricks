@@ -1,7 +1,7 @@
 {% for trick in tricks %}
     <div class="trick-card">
-        {% if trick.media[0] is defined %}
-            {% set firstImage = trick.media[0] %}
+        {% if medias[0] is defined %}
+            {% set firstImage = medias[0] %}
             <img class="card-image" src="{{ asset('/uploads/'~ firstImage.name) }}" alt="main trick image">
         {% else %}
             <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
@@ -10,17 +10,11 @@
             <a href="trick/{{ trick.slug }}"><h5 class="card-title">{{ trick.name }}</h5></a>
             {% if app.user %}
                 <div class="btn-trick-modify">
-
-                    <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
-                                class="fas fa-pencil-alt"></i></a>
-                    {# <form action="{{ path('trick_delete', {'slug': trick.slug}) }}" method="post"> #}
-                    {# <button> #}
-                    {# <i class="fas fa-trash-alt"></i></button> #}
-                    {# </form> #}
+                    <a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
+                        <i class="fas fa-pencil-alt"></i></a>
                     {% embed "trick/_delete_form.html.twig" %}
                         {% set btn = '<button class="btn btn-trick-del"><i class="fas fa-trash-alt"></i></button>' %}
                     {% endembed %}
-
                 </div>
             {% endif %}
         </div>

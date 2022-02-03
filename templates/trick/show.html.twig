@@ -6,8 +6,8 @@
 
     <section class="info-trick">
         <div class="main-image">
-            {% if trick.media[0] is defined %}
-                {% set firstImage = trick.media[0] %}
+            {% if medias[0] is defined %}
+                {% set firstImage = medias[0] %}
                 <img class="first-image" src="{{ asset('/uploads/'~ firstImage.name) }}" alt="main trick image">
             {% else %}
                 <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
@@ -37,12 +37,10 @@
             {% for media in medias %}
                 <div class="file-media">
                     <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                     <a href="{{ path('trick_delete_media', {'id': media.id}) }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">Supprimer</a>
-
                 </div>
             {% endfor %}
-             <link type="button" class="link-dark">
-             <a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a>
+            <link type="button" class="link-dark">
+            <a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a>
 
         </div>
 
