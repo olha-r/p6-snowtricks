@@ -63,10 +63,6 @@ class Trick
      */
     private $user;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
-     */
-    private $media;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -192,35 +188,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection|Media[]
-     */
-    public function getMedia(): Collection
-    {
-        return $this->media;
-    }
-
-    public function addMedia(Media $media): self
-    {
-        if (!$this->media->contains($media)) {
-            $this->media[] = $media;
-            $media->setTrick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMedia(Media $media): self
-    {
-        if ($this->media->removeElement($media)) {
-            // set the owning side to null (unless already changed)
-            if ($media->getTrick() === $this) {
-                $media->setTrick(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getSlug(): ?string
     {

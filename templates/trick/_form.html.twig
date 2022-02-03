@@ -2,25 +2,18 @@
 {{ form_start(form) }}
 {# {{ form_widget(form) }} #}
 
-    <div class="main-image">
-        {% if trick.media[0] is defined %}
-            {% set firstImage = trick.media[0] %}
-            <img class="first-image" src="{{ asset('/uploads/'~ firstImage.name) }}" alt="main trick image">
-        {% else %}
-            <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
-        {% endif %}
-    </div>
-    <div class="trick-details">
-        <p>Category: {{ form_row(form.category, {'label': false}) }}</p>
-    </div>
 
-    <hr>
-    <div class="trick-description">
-        <h4 class="card-title">{{ form_row(form.name, {'attr': {'placeholder': 'Titre de trick', 'label' : 'Titre de trick'}}) }}</h4>
-        <h4 class="card-text">{{ form_row(form.description|raw, {'attr': {'placeholder': 'Description', 'label' : 'Titre de trick'}}) }}</h4>
+<div class="trick-details">
+    <p>Category: {{ form_row(form.category, {'label': false}) }}</p>
+</div>
 
-    </div>
-<div class="trick-images">
+<hr>
+<div class="trick-description">
+    <h4 class="card-title">{{ form_row(form.name, {'attr': {'placeholder': 'Titre de trick', 'label' : 'Titre de trick'}}) }}</h4>
+    <h4 class="card-text">{{ form_row(form.description|raw, {'attr': {'placeholder': 'Description', 'label' : 'Titre de trick'}}) }}</h4>
+
+</div>
+<div class="trick-images" id="list">
     <h4>Ajouter des images</h4>
     {{ form_row(form.medias, {'label': false}) }}
     {% if app.request.attributes.get('_route') == 'trick_edit' %}
@@ -28,18 +21,19 @@
         {% for media in trick.media %}
             <div class="file-media">
                 <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                {#                <a href="{{ path('trick_delete_media', {'id': media.id}) }}">Supprimer</a>#}
-                {# data-delete data-token="{{ csrf_token('delete'~ media.id)}} #}
-
+                <a href="{{ path('trick_delete_media', {'id': media.id}) }} "
+                   class="js-img-delete" id="del_button" data-token="{{ csrf_token('delete'~ media.id)}}">
+                    <i class="far fa-times-circle"></i>
+                </a>
             </div>
         {% endfor %}
     {% endif %}
 </div>
 
-<div class="trick-videos">
-    <h4>Ajouter des videos</h4>
-    {{ form_row(form.videos, {'label': false}) }}
-</div>
+{#<div class="trick-videos">#}
+{#    <h4>Ajouter des videos</h4>#}
+{#    {{ form_row(form.videos, {'label': false}) }}#}
+{#</div>#}
 
 <button class="btn btn-warning btn-lg">{{ button_label|default('Créer un trick') }}</button>
 {{ form_end(form) }}

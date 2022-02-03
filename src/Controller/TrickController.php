@@ -9,8 +9,10 @@ use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
+use App\Repository\MediaRepository;
 use App\Repository\TrickRepository;
 use App\Service\PaginationService;
+use App\Service\UploadService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,45 +48,45 @@ class TrickController extends AbstractController
     /**
      * @Route("/new", name="trick_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security, UploadService $upload): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         $slugger = new AsciiSlugger();
 
-
         if ($form->isSubmitted() && $form->isValid()) {
+
             $trick->setUser($security->getUser())
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
                 ->setSlug($slugger->slug($trick->getName()))
             ;
-            $medias = $form->get('medias')->getData();
-            foreach ($medias as $m) {
-                //File name generation
-                $file = md5(uniqid()) . '.' . $m->guessExtension();
-                //Copying the file to the 'uploads' folder
-                $m->move(
-                    $this->getParameter('media_directory'),
-                    $file
-                );
-                //we store media file in the database
-                $media = new Media();
-                $media->setName($file);
-                $trick->addMedia($media);
-            }
-
-            $videos = $form->get('videos')->getData();
-            foreach ($videos as $video) {
-                $video = new Video();
-                $video->setName(md5(uniqid()));
-$trick->addVideo($video);
-            }
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()], Response::HTTP_SEE_OTHER);
+            $medias = $form->get('medias')->getData();
+            foreach ($medias as $media) {
+                $file = $upload->upload($media);
+                //we store media file in the database
+                $media = new Media();
+                $media->setName($file);
+                $media->setTrick($trick);
+                $entityManager->persist($media);
+                $entityManager->flush();
+            }
+
+
+//            $videos = $form->get('videos')->getData();
+//            foreach ($videos as $video) {
+//                $video = new Video();
+//                $video->setName(md5(uniqid()));
+//$trick->addVideo($video);
+     //       }
+
+
+
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trick/new.html.twig', [
@@ -92,13 +94,26 @@ $trick->addVideo($video);
             'form' => $form,
         ]);
     }
+    /**
+     * @Route("/{slug}/delete", name="trick_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
+    {
 
+        if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->request->get('_token'))) {
+            $entityManager->remove($trick);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
     /**
      * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
      */
 
-    public function show($slug, Trick $trick, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
+    public function show($slug, Trick $trick, MediaRepository $media, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
+        $medias = $media->findBy(['trick'=> $trick]);
         $comment = $commentRepository->findBy([
             'trick' => $trick->getId()
         ]);
@@ -122,7 +137,8 @@ $trick->addVideo($video);
         return $this->renderForm('trick/show.html.twig', [
             'trick' => $trick,
             'comments' => $comment,
-            'commentForm' => $form
+            'commentForm' => $form,
+            'medias' => $medias
         ]);
     }
 
@@ -152,12 +168,13 @@ $trick->addVideo($video);
                 $trick->addMedia($media);
             }
 
-            $videos = $form->get('videos')->getData();
-            foreach ($videos as $video) {
-                $video = new Video();
-                $video->setName(md5(uniqid()));
-                $trick->addVideo($video);
-                    }
+//            $videos = $form->get('videos')->getData();
+//            foreach ($videos as $video) {
+//                $video = new Video();
+//                $video->setName(md5(uniqid()));
+//                $trick->addVideo($video);
+//                    }
+            $entityManager->persist($trick);
             $entityManager->flush();
 
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
@@ -170,18 +187,22 @@ $trick->addVideo($video);
     }
 
     /**
-     * @Route("/{slug}", name="trick_delete", methods={"POST"})
+     * @Route("/delete/media/{id}", name="trick_delete_media")
      */
-    public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
+    public function deleteMedias(Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository): JsonResponse
     {
 
-        if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->request->get('_token'))) {
-            $entityManager->remove($trick);
-            $entityManager->flush();
-        }
+        $media = $mediaRepository->findOneById($media);
+        $entityManager->remove($media);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
-    }
+        return $this->json([
+            'code' => 200,
+            'message' => 'L\'image a bien été supprimée !'
+//            'result'  => $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER)
+
+        ], 200);
+        }
 //
 //    /**
 //     * @Route("/delete/media/{id}", name="trick_delete_media", methods={"DELETE"})

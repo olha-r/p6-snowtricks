@@ -31,16 +31,16 @@ class TrickType extends AbstractType
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false
-            ])
-            ->add('videos', CollectionType::class, [
-                // each entry in the array will be an "url" field
-                'entry_type' => UrlType::class,
-                // these options are passed to each "url" type
-                'entry_options' => [
-                    'class' => Video::class,
-                    'multiple' => true,
-                ],
             ]);
+//            ->add('videos', CollectionType::class, [
+//                // each entry in the array will be an "url" field
+//                'entry_type' => UrlType::class,
+//                // these options are passed to each "url" type
+//                'entry_options' => [
+//                    'class' => Video::class,
+//                    'multiple' => true,
+//                ],
+//            ]);
     }
 //$builder->add('emails', CollectionType::class, [
 //    // each entry in the array will be an "email" field
