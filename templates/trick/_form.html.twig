@@ -17,16 +17,17 @@
     <h4>Ajouter des images</h4>
     {{ form_row(form.medias, {'label': false}) }}
     {% if app.request.attributes.get('_route') == 'trick_edit' %}
-
+<div id="list">
         {% for media in trick.media %}
-            <div class="file-media">
+            <div class="file-media" id="img-{{ media.id }}">
                 <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                <a href="{{ path('trick_delete_media', {'id': media.id}) }} "
-                   class="js-img-delete" id="del_button" data-token="{{ csrf_token('delete'~ media.id)}}">
+                <a class="delete-img img-{{ media.id }}" id="{{ media.id }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">
                     <i class="far fa-times-circle"></i>
                 </a>
             </div>
         {% endfor %}
+    <div id="result"></div>
+</div>
     {% endif %}
 </div>
 

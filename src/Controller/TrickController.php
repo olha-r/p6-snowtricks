@@ -187,21 +187,23 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/delete/media/{id}", name="trick_delete_media")
+     * @Route("media/{id}", name="media_delete")
      */
-    public function deleteMedias(Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository): JsonResponse
+    public function deleteMedias(Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository, Request $request): JsonResponse
     {
 
-        $media = $mediaRepository->findOneById($media);
-        $entityManager->remove($media);
-        $entityManager->flush();
+            $media = $mediaRepository->findOneById($media);
+            $entityManager->remove($media);
+            $entityManager->flush();
+            return new JsonResponse([
+                'success' => 1,
+                'message' => 'L\'image a bien été supprimée !'
+            ], 200);
+            //        ([
+//            'code' => 200,
+//            'message' => 'L\'image a bien été supprimée !'
+//        ], 200);
 
-        return $this->json([
-            'code' => 200,
-            'message' => 'L\'image a bien été supprimée !'
-//            'result'  => $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER)
-
-        ], 200);
         }
 //
 //    /**
