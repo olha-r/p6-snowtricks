@@ -80,6 +80,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $userPicture;
+
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -250,6 +255,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserPicture(): ?string
+    {
+        return $this->userPicture;
+    }
+
+    public function setUserPicture(?string $userPicture): self
+    {
+        $this->userPicture = $userPicture;
 
         return $this;
     }
