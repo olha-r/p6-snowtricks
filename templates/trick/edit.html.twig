@@ -10,9 +10,14 @@
                 {% set btn = '<button class="btn btn-outline-danger btn-lg">Supprimer</button>' %}
         {% endembed %}
 </section>
-
+    <div class="conteneur">
+        <div class="bonjour">Bonjour</div>
+        <div class="aurevoir">Au revoir</div>
+    </div>
 {% endblock %}
 
 {% block javascript %}
-{#  <script src="{{ asset('js/media.js') }}"></script> #}
+{{ parent() }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ asset('js/media.js') }}"></script>
 {% endblock %}
