@@ -21,8 +21,7 @@
         {% for media in trick.media %}
             <div class="file-media" id="img-{{ media.id }}">
                 <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                <a href="{{ path('media_delete', {'id': media.id}) }} "
-                   class="delete-img img-{{ media.id }}" id="{{ media.id }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">
+                <a class="delete-img img-{{ media.id }}" id="{{ media.id }}" data-delete data-token="{{ csrf_token('delete'~ media.id)}}">
                     <i class="far fa-times-circle"></i>
                 </a>
             </div>

@@ -1,29 +1,22 @@
-
-window.onload = () => {
-    $('.delete-img').click(function (event) {
-        event.preventDefault();
-        let img = $('.delete-img').attr('id');
-        if (confirm('Supprimer?')) {
-            $.ajax({
-                dataType: "json",
-                url: "{{ path('media_delete'),{'id': media.id})}}",
-                type: "POST",
-                data:
-                   'media_id='+img,
-                cache: false,
-                success: function (data) {
-                    if (data === 1){
-                        img.remove();
-                    }
-                },
-                contentType: false,
-                processData: false
-            });
-        }
-    });
-}
-
-
+$('.delete-img').on('click', function (event) {
+    let img = $('.delete-img').attr('id');
+    console.log(img);
+    if (confirm('Supprimer?')) {
+        $.ajax({
+            url: window.location.origin + 'media/' + img,
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                console.log(data);
+                if (data.success === 1) {
+                    $('.img-'+ img).remove();
+                }
+            },
+            contentType: false,
+            processData: false
+        });
+    }
+});
 
 
 // window.onload = () => {
