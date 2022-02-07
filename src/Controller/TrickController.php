@@ -107,6 +107,7 @@ class TrickController extends AbstractController
      */
     public function show($slug, Trick $trick, MediaRepository $media, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
+        $user = $security->getUser();
         $medias = $media->findBy(['trick' => $trick]);
         $comment = $commentRepository->findBy([
             'trick' => $trick->getId()
@@ -119,7 +120,7 @@ class TrickController extends AbstractController
 
             $new_comment->setCreatedAt(new \DateTime())
                 ->setTrick($trick)
-                ->setUser($security->getUser())
+                ->setUser($user)
                 ->setContent($new_comment->getContent());
             $entityManager->persist($new_comment);
             $entityManager->flush();

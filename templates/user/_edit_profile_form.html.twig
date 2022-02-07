@@ -1,0 +1,23 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{{ form_start(form) }}
+<div class="profile-form">
+    {% if user.userPicture is not empty %}
+        <img src="{{ asset('/uploads/'~ user.userPicture) }}" alt="Photo de {{ user.fullName }}"
+             class="photo-profile">
+        <h4 class="card-text">{{ form_row(form.userPicture, {'label': 'Changer photo de ton profile'}) }}</h4>
+        {% else %}
+            <h4 class="card-text">{{ form_row(form.userPicture, {'label': 'Photo de ton profile'}) }}</h4>
+    {% endif %}
+    <h4 class="card-title">{{ form_row(form.username, {'attr': {'placeholder': 'Username', 'label' : 'Username'}}) }}</h4>
+    <h4 class="card-text">{{ form_row(form.fullName, {'attr': {'placeholder': 'Nom, prénom', 'label' : 'Nom, prénom'}}) }}</h4>
+    <h4 class="card-text">{{ form_row(form.email, {'attr': {'placeholder': 'Email', 'label' : 'Email'}}) }}</h4>
+
+
+
+
+<button class="btn btn-warning btn-lg">{{ button_label|default('Valider') }}</button>
+{{ form_end(form) }}
+</div>
+
+
+

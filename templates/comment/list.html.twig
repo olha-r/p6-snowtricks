@@ -2,13 +2,21 @@
     <div class="comment row">
         <div class="col-2">
             <p>{{ comment.user.username }}</p>
+            {% if comment.user.userPicture is not empty %}
+                    <img src="{{ asset('/uploads/'~ comment.user.userPicture) }}" alt="Photo de {{ comment.user.fullName }}"
+                         class="photo-profile">
+            {% else %}
+                <img class="photo-profile" src="{{ asset('/images/default-user-picture.png') }}" alt="default user picture">
+            {% endif %}
         </div>
+
         <div class="col">
             <small class="text-muted"> ajouté
                 le {{ comment.createdAt ? comment.createdAt|date('d/m/Y H:i') : '' }}  </small>
             <p>{{ comment.content|raw }}</p>
-            <hr>
+
         </div>
+        <hr>
     </div>
 {% endfor %}
 

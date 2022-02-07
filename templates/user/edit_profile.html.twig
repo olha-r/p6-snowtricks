@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du profile de {{ user.username }}{% endblock %}
+
+{% block body %}
+    <div class="container login">
+        <h1>Modification du profile de
+            {% if user.fullName is not empty %}
+                {{ user.fullName }}
+            {% else %}
+                {{ user.username }}
+            {% endif %}
+        </h1>
+        {{ include('user/_edit_profile_form.html.twig') }}
+    </div>
+
+
+{% endblock %}

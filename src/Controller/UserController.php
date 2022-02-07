@@ -3,17 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ProfileType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class UserController extends AbstractController
 {
@@ -101,4 +104,57 @@ class UserController extends AbstractController
         }
 
     }
+
+    /**
+     * @Route("/profile/{username}", name="user_profile", methods={"GET", "POST"})
+     */
+    public function userProfile(User $user): Response
+    {
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("profile/{username}/edit", name="profile_edit", methods={"GET", "POST"})
+     */
+    public function editProfile(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $slugger = new AsciiSlugger();
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form->get('userPicture')->getData();
+            if ($photo) {
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeUserPictureFileName = $slugger->slug($originalFilename);
+                $newFilename = $safeUserPictureFileName.'-'.uniqid().'.'.$photo->guessExtension();
+                try {
+                    $photo->move(
+                        $this->getParameter('media_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $user->setUserPicture($newFilename);
+            }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_profile',  ['username' => $user->getUsername()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/edit_profile.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+
+
 }
