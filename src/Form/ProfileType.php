@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProfileType extends AbstractType
 {
@@ -16,8 +18,21 @@ class ProfileType extends AbstractType
             ->add('username')
             ->add('fullName')
             ->add('email')
-            ->add('userPicture')
-            ->add('Valider', SubmitType::class)
+            ->add('userPicture', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image jpeg ou png de',
+                    ])
+                ],
+            ])
+//            ->add('Valider', SubmitType::class)
 
         ;
     }

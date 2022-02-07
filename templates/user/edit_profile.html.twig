@@ -11,6 +11,8 @@
                 {{ user.username }}
             {% endif %}
         </h1>
-        {{ form(form) }}
+        {{ include('user/_edit_profile_form.html.twig') }}
     </div>
+
+
 {% endblock %}

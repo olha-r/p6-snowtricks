@@ -208,3 +208,15 @@ i {
 .registration .form-group, .login .form-group {
   margin: 15px 0;
 }
+
+
+/***********************************/
+/********** Profile page ***********/
+/***********************************/
+.photo-profile {
+  border: 1px #ddd;
+  border-radius: 10px;
+  width: 120px;
+  height: 110px;
+  object-fit: cover;
+}
