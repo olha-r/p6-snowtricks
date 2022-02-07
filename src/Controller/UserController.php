@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ProfileType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -101,4 +102,39 @@ class UserController extends AbstractController
         }
 
     }
+
+    /**
+     * @Route("/profile/{username}", name="user_profile", methods={"GET", "POST"})
+     */
+    public function userProfile(User $user): Response
+    {
+        return $this->render('user/profile.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("profile/{username}/edit", name="profile_edit", methods={"GET", "POST"})
+     */
+    public function editProfile(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_profile',  ['username' => $user->getUsername()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/edit_profile.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+
+
 }

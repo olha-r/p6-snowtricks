@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles = ['ROLE_USER'];
 
     /**
      * @var string The hashed password
@@ -84,6 +84,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $userPicture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fullName;
 
     public function __construct()
     {
@@ -267,6 +272,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUserPicture(?string $userPicture): self
     {
         $this->userPicture = $userPicture;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(?string $fullName): self
+    {
+        $this->fullName = $fullName;
 
         return $this;
     }
