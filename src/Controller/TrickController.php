@@ -33,7 +33,7 @@ class TrickController extends AbstractController
      * @Route("/page/{page<\d+>}", name="trick_page", methods={"GET"})
      * @Route("/page/{page<\d+>}/{limit}-per-page", name="trick_page_with_limit", methods={"GET"})
      */
-    public function renderPaginatedTricks(TrickRepository $trickRepository, PaginationService $pagination, $page = 1)
+    public function renderPaginatedTricks(TrickRepository $trickRepository, PaginationService $pagination, $page = 1): Response
     {
         $limit = 6;
         $queryBuilder = $trickRepository->createQueryBuilder('t')
@@ -64,10 +64,10 @@ class TrickController extends AbstractController
 
             $medias = $form->get('medias')->getData();
             foreach ($medias as $media) {
-                $file = $upload->upload($media);
+                $fileName = $upload->upload($media);
                 //we store media file in the database
                 $media = new Media();
-                $media->setName($file);
+                $media->setName($fileName);
                 $media->setTrick($trick);
                 $entityManager->persist($media);
                 $entityManager->flush();
@@ -105,7 +105,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show($slug, Trick $trick, MediaRepository $media, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
+    public function show(Trick $trick, MediaRepository $media, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
         $user = $security->getUser();
         $medias = $media->findBy(['trick' => $trick]);
@@ -149,10 +149,10 @@ class TrickController extends AbstractController
             $entityManager->flush();
             $medias = $form->get('medias')->getData();
             foreach ($medias as $media) {
-                $file = $upload->upload($media);
+                $fileName = $upload->upload($media);
                 //we store media file in the database
                 $media = new Media();
-                $media->setName($file);
+                $media->setName($fileName);
                 $media->setTrick($trick);
                 $entityManager->persist($media);
                 $entityManager->flush();

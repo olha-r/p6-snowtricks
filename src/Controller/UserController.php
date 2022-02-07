@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\ProfileType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -118,7 +119,7 @@ class UserController extends AbstractController
     /**
      * @Route("profile/{username}/edit", name="profile_edit", methods={"GET", "POST"})
      */
-    public function editProfile(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function editProfile(Request $request, User $user, EntityManagerInterface $entityManager, UploadService $upload): Response
     {
         $slugger = new AsciiSlugger();
 
@@ -128,19 +129,8 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $photo = $form->get('userPicture')->getData();
             if ($photo) {
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeUserPictureFileName = $slugger->slug($originalFilename);
-                $newFilename = $safeUserPictureFileName.'-'.uniqid().'.'.$photo->guessExtension();
-                try {
-                    $photo->move(
-                        $this->getParameter('media_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                $user->setUserPicture($newFilename);
+                $fileName = $upload->upload($photo);
+                $user->setUserPicture($fileName);
             }
 
             $entityManager->persist($user);
