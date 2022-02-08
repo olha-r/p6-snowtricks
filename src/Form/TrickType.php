@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,25 +32,23 @@ class TrickType extends AbstractType
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false
-            ]);
-//            ->add('videos', CollectionType::class, [
-//                // each entry in the array will be an "url" field
-//                'entry_type' => UrlType::class,
-//                // these options are passed to each "url" type
-//                'entry_options' => [
-//                    'class' => Video::class,
-//                    'multiple' => true,
-//                ],
-//            ]);
+            ])
+            ->add('videos', UrlType::class, [
+                'mapped' => false,
+                'required' => false
+            ])
+        ;
+
+//        $builder->add('emails', CollectionType::class, [
+//            // each entry in the array will be an "email" field
+//            'entry_type' => EmailType::class,
+//            // these options are passed to each "email" type
+//            'entry_options' => [
+//                'attr' => ['class' => 'email-box'],
+//            ],
+//        ]);
     }
-//$builder->add('emails', CollectionType::class, [
-//    // each entry in the array will be an "email" field
-//'entry_type' => EmailType::class,
-//    // these options are passed to each "email" type
-//'entry_options' => [
-//'attr' => ['class' => 'email-box'],
-//],
-//]);
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

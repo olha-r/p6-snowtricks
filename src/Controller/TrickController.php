@@ -62,6 +62,7 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
 
+            //Get media files
             $medias = $form->get('medias')->getData();
             foreach ($medias as $media) {
                 $file = $upload->upload($media);
@@ -72,6 +73,18 @@ class TrickController extends AbstractController
                 $entityManager->persist($media);
                 $entityManager->flush();
             }
+
+            // Get videos Url
+            $videoUrl = $form->get('videos')->getData();
+//            dd($videoUrl);
+//                foreach ($videos as $videoUrl) {
+                    $video = new Video();
+                    $video->setVideoUrl($videoUrl);
+                    $video->setTrick($trick);
+            $entityManager->persist($video);
+            $entityManager->flush();
+//                }
+
 //            $videos = $form->get('videos')->getData();
 //            foreach ($videos as $video) {
 //                $video = new Video();
