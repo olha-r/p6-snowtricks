@@ -11,6 +11,7 @@ use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use App\Service\PaginationService;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManager;
@@ -118,13 +119,17 @@ class TrickController extends AbstractController
     /**
      * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show($slug, Trick $trick, MediaRepository $media, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
+    public function show($slug, Trick $trick, MediaRepository $media, VideoRepository $video, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
         $user = $security->getUser();
         $medias = $media->findBy(['trick' => $trick]);
+        $video = $video->findOneBy(['trick' => $trick]);
+//        dd($videos);
         $comment = $commentRepository->findBy([
             'trick' => $trick->getId()
         ]);
+
+        //Add comments
         $new_comment = new Comment();
         $form = $this->createForm(CommentType::class, $new_comment);
 
@@ -139,11 +144,13 @@ class TrickController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
+
         return $this->renderForm('trick/show.html.twig', [
             'trick' => $trick,
             'comments' => $comment,
             'commentForm' => $form,
-            'medias' => $medias
+            'medias' => $medias,
+            'video' => $video
         ]);
     }
 
