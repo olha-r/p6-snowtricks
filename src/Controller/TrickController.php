@@ -11,9 +11,9 @@ use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use App\Service\PaginationService;
 use App\Service\UploadService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -62,6 +62,7 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
 
+            //Get media files from the form
             $medias = $form->get('medias')->getData();
             foreach ($medias as $media) {
                 $fileName = $upload->upload($media);
@@ -72,12 +73,16 @@ class TrickController extends AbstractController
                 $entityManager->persist($media);
                 $entityManager->flush();
             }
-//            $videos = $form->get('videos')->getData();
-//            foreach ($videos as $video) {
-//                $video = new Video();
-//                $video->setName(md5(uniqid()));
-//$trick->addVideo($video);
-            //       }
+
+            // Get videos Url from the form
+            $videoUrl = $form->get('videos')->getData();
+//                foreach ($videos as $videoUrl) {
+                    $video = new Video();
+                    $video->setVideoUrl($videoUrl);
+                    $video->setTrick($trick);
+            $entityManager->persist($video);
+            $entityManager->flush();
+//                }
 
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -105,13 +110,16 @@ class TrickController extends AbstractController
     /**
      * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show(Trick $trick, MediaRepository $media, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
+    public function show($slug, Trick $trick, MediaRepository $media, VideoRepository $video, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
         $user = $security->getUser();
         $medias = $media->findBy(['trick' => $trick]);
+        $video = $video->findOneBy(['trick' => $trick]);
         $comment = $commentRepository->findBy([
             'trick' => $trick->getId()
         ]);
+
+        //Add comments
         $new_comment = new Comment();
         $form = $this->createForm(CommentType::class, $new_comment);
 
@@ -126,28 +134,33 @@ class TrickController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
+
         return $this->renderForm('trick/show.html.twig', [
             'trick' => $trick,
             'comments' => $comment,
             'commentForm' => $form,
-            'medias' => $medias
+            'medias' => $medias,
+            'video' => $video
         ]);
     }
 
     /**
      * @Route("/{slug}/edit", name="trick_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Trick $trick, MediaRepository $media, EntityManagerInterface $entityManager, UploadService $upload): Response
+    public function edit(Request $request, Trick $trick, MediaRepository $media, VideoRepository $video, EntityManagerInterface $entityManager, UploadService $upload): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         $medias = $media->findBy(['trick' => $trick]);
+        $video = $video->findOneBy(['trick' => $trick]);
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUpdatedAt(new \DateTime());
 
             $entityManager->persist($trick);
             $entityManager->flush();
             $medias = $form->get('medias')->getData();
+
+            //Add new media files
             foreach ($medias as $media) {
                 $fileName = $upload->upload($media);
                 //we store media file in the database
@@ -157,23 +170,37 @@ class TrickController extends AbstractController
                 $entityManager->persist($media);
                 $entityManager->flush();
             }
+
+            // Add new videos Url
+            $videoUrl = $form->get('videos')->getData();
+//                foreach ($videos as $videoUrl) {
+            $video = new Video();
+            $video->setVideoUrl($videoUrl);
+            $video->setTrick($trick);
+            $entityManager->persist($video);
+            $entityManager->flush();
+//                }
+
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('trick/edit.html.twig', [
             'trick' => $trick,
             'form' => $form,
-            'medias' => $medias
+            'medias' => $medias,
+            'video' => $video
         ]);
     }
 
     /**
-     * @Route("media/{id}", name="media_delete")
+     * @Route("/media/{id}", name="media_delete")
      */
-    public function deleteMedias(Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository, Request $request): JsonResponse
+    public function deleteMedias($id, Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository, Request $request): JsonResponse
     {
 
-        $media = $mediaRepository->findOneBy($media);
+
+        $media = $mediaRepository->findOneBy(['id'=>$id]);
+
         $entityManager->remove($media);
         $entityManager->flush();
         return new JsonResponse([
@@ -181,7 +208,9 @@ class TrickController extends AbstractController
             'message' => 'L\'image a bien été supprimée !'
         ], 200);
     }
-//
+
+
+    //
 //    /**
 //     * @Route("/delete/media/{id}", name="trick_delete_media", methods={"DELETE"})
 //     */
