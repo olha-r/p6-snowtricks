@@ -59,7 +59,7 @@ class Trick
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $user;
 
@@ -68,17 +68,17 @@ class Trick
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
-     */
-    private $videos;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+//     */
+//    private $videos;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->media = new ArrayCollection();
-        $this->videos = new ArrayCollection();
+//        $this->media = new ArrayCollection();
+//        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -201,33 +201,33 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection|Video[]
-     */
-    public function getVideos(): Collection
-    {
-        return $this->videos;
-    }
-
-    public function addVideo(Video $video): self
-    {
-        if (!$this->videos->contains($video)) {
-            $this->videos[] = $video;
-            $video->setTrick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVideo(Video $video): self
-    {
-        if ($this->videos->removeElement($video)) {
-            // set the owning side to null (unless already changed)
-            if ($video->getTrick() === $this) {
-                $video->setTrick(null);
-            }
-        }
-
-        return $this;
-    }
+//    /**
+//     * @return Collection|Video[]
+//     */
+//    public function getVideos(): Collection
+//    {
+//        return $this->videos;
+//    }
+//
+//    public function addVideo(Video $video): self
+//    {
+//        if (!$this->videos->contains($video)) {
+//            $this->videos[] = $video;
+//            $video->setTrick($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeVideo(Video $video): self
+//    {
+//        if ($this->videos->removeElement($video)) {
+//            // set the owning side to null (unless already changed)
+//            if ($video->getTrick() === $this) {
+//                $video->setTrick(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 }

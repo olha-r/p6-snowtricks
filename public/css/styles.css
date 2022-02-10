@@ -141,7 +141,7 @@ i {
   color: #023047;
 }
 
-.trick-details, .trick-images, .trick-videos, .trick-description, .comments, .comment-form {
+.trick-details, .images, .trick-videos, .trick-description, .comments, .comment-form {
   background-color: #edf2f4;
   border-radius: 20px;
   padding: 20px 30px;
