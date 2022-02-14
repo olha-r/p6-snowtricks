@@ -16,6 +16,7 @@ use App\Service\PaginationService;
 use App\Service\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -200,6 +201,11 @@ class TrickController extends AbstractController
 
 
         $media = $mediaRepository->findOneBy(['id'=>$id]);
+
+        $filesystem = new Filesystem();
+        $directory = $this->getParameter('upload_directory');
+        $mediaName = $media->getName();
+        $filesystem->remove($directory.'/'.$mediaName);
 
         $entityManager->remove($media);
         $entityManager->flush();

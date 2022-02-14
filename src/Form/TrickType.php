@@ -38,15 +38,6 @@ class TrickType extends AbstractType
                 'required' => false
             ])
         ;
-
-//        $builder->add('emails', CollectionType::class, [
-//            // each entry in the array will be an "email" field
-//            'entry_type' => EmailType::class,
-//            // these options are passed to each "email" type
-//            'entry_options' => [
-//                'attr' => ['class' => 'email-box'],
-//            ],
-//        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
