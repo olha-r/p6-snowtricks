@@ -38,16 +38,7 @@
  <div class="trick-videos">
  <h4>Ajouter des videos</h4>
 
- {{ form_row(form.videos, {'label': false}) }}
-{#     <div class="col-md-4">#}
-{#         <p class="help-video">Pour ajouter une vidéo :</p>#}
-{#         <ol class="help-video">#}
-{#             <li>Sélectionnez votre vidéo sur l'hébergeur de votre choix.</li>#}
-{#             <li>Cliquez sur le lien <strong>Partager</strong></li>#}
-{#             <li>Sélectionnez <strong>Intégrer</strong>.</li>#}
-{#             <li>Copiez le lien de la vidéo et collez-le dans le champ.</li>#}
-{#         </ol>#}
-{#     </div>#}
+ {{ form_row(form.videos, {'label': false, 'attr': {'class': 'videoUpload'} }) }}
 
      <div class="trick-videos">
          {% if video.videoUrl is defined %}
@@ -63,3 +54,12 @@
 
 
 
+{#     <div class="col-md-4">#}
+{#         <p class="help-video">Pour ajouter une vidéo :</p>#}
+{#         <ol class="help-video">#}
+{#             <li>Sélectionnez votre vidéo sur l'hébergeur de votre choix.</li>#}
+{#             <li>Cliquez sur le lien <strong>Partager</strong></li>#}
+{#             <li>Sélectionnez <strong>Intégrer</strong>.</li>#}
+{#             <li>Copiez le lien de la vidéo et collez-le dans le champ.</li>#}
+{#         </ol>#}
+{#     </div>#}
