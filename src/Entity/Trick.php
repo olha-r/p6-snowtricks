@@ -71,11 +71,13 @@ class Trick
 
     /**
      * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="cascade")
      */
     private $media;
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="cascade")
      */
     private $videos;
 

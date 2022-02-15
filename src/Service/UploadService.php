@@ -41,6 +41,13 @@ class UploadService
         return $fileName;
 
     }
+    public function remove($fileName)
+    {
+        // Remove the file from the server
+        if (file_exists($this->getTargetDirectory() . '/' . $fileName)) {
+            unlink($this->getTargetDirectory() . '/' . $fileName);
+        }
+    }
 
     public function getTargetDirectory()
     {

@@ -196,16 +196,17 @@ class TrickController extends AbstractController
     /**
      * @Route("/media/{id}", name="media_delete")
      */
-    public function deleteMedias($id, Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository, Request $request): JsonResponse
+    public function deleteMedias($id, Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository, Request $request, UploadService $upload): JsonResponse
     {
 
 
         $media = $mediaRepository->findOneBy(['id'=>$id]);
-
-        $filesystem = new Filesystem();
-        $directory = $this->getParameter('upload_directory');
-        $mediaName = $media->getName();
-        $filesystem->remove($directory.'/'.$mediaName);
+        $upload->remove($media->getName());
+//
+//        $filesystem = new Filesystem();
+//        $directory = $this->getParameter('upload_directory');
+//        $mediaName = $media->getName();
+//        $filesystem->remove($directory.'/'.$mediaName);
 
         $entityManager->remove($media);
         $entityManager->flush();
@@ -214,27 +215,5 @@ class TrickController extends AbstractController
             'message' => 'L\'image a bien été supprimée !'
         ], 200);
     }
-
-
-    //
-//    /**
-//     * @Route("/delete/media/{id}", name="trick_delete_media", methods={"DELETE"})
-//     */
-//    public function deleteMedias(Media $media, Request $request, EntityManagerInterface $entityManager)
-//    {
-//        $data = json_decode($request->getContent(), true);
-//        if ($this->isCsrfTokenValid('delete'.$media->getId(), $data['_token'])){
-//            $name = $media->getName();
-//            unlink($this->getParameter('media_directory').'/'.$name);
-//
-//            $entityManager->remove($media);
-//            $entityManager->flush();
-//
-//            return new JsonResponse(['success' => 1]);
-//        }
-//        else {
-//            return new JsonResponse(['error' => 'Token Invalid'], 400);
-//        }
-//    }
 
 }
