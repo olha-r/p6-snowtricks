@@ -20,6 +20,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -47,7 +48,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/new", name="trick_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, Security $security, UploadService $upload): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security, UploadService $upload, SessionInterface $session): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
@@ -85,7 +86,12 @@ class TrickController extends AbstractController
             $entityManager->flush();
 //                }
 
+            $this->addFlash(
+                'success',
+                'Le trick a bien été ajouté'
+            );
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
+
         }
 
         return $this->renderForm('trick/new.html.twig', [
@@ -104,6 +110,10 @@ class TrickController extends AbstractController
             $entityManager->remove($trick);
             $entityManager->flush();
         }
+        $this->addFlash(
+            'success',
+            'Le trick a bien été supprimé!'
+        );
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
@@ -133,6 +143,11 @@ class TrickController extends AbstractController
                 ->setContent($new_comment->getContent());
             $entityManager->persist($new_comment);
             $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'Le commentaire a bien été ajouté!'
+            );
+
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
@@ -182,6 +197,10 @@ class TrickController extends AbstractController
             $entityManager->flush();
 //                }
 
+            $this->addFlash(
+                'success',
+                'Le trick a bien été modifié!'
+            );
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
         }
 

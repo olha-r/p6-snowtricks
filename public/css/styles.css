@@ -9,6 +9,11 @@ a {
   text-decoration: none;
   /*  color: #FA9421;*/
 }
+
+.alert {
+  width: 1000px;
+  margin: 0 auto;
+}
 /*h1, h2, h3, h4, h5 {*/
 /*  color: #3c6e71  ;*/
 /*}*/

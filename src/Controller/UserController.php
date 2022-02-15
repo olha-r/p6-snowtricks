@@ -52,6 +52,12 @@ class UserController extends AbstractController
                 ]);
 
             $mailer->send($email);
+
+            $this->addFlash(
+                'primary',
+                'Félicitations! Vous êtes enregistrer avec succès. Vérifiez votre e-mail pour confirmer la création du compte.'
+            );
+
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
 
         }
@@ -98,7 +104,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             // On génère un message
-            $this->addFlash('message', 'Utilisateur activé avec succès');
+            $this->addFlash('info', 'Utilisateur activé avec succès');
 
             // On retourne à l'accueil
             return $this->redirectToRoute('home');
@@ -121,7 +127,6 @@ class UserController extends AbstractController
      */
     public function editProfile(Request $request, User $user, EntityManagerInterface $entityManager, UploadService $upload): Response
     {
-        $slugger = new AsciiSlugger();
 
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
