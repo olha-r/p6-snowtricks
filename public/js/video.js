@@ -1,25 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
     $('#trick_videos').on('change', function () {
-        let url = document.getElementById('trick_videos').value;
 
+        let url = document.getElementById('trick_videos').value;
         // console.log(url);
         // console.log(isValidURL(url));
         if (isValidURL(url) === true) {
 
             if (url.includes('embed/')) {
-                addVideoPreview(url);
+                var embedUrl = url;
+                    addVideoPreview(embedUrl);
             } else if (url.includes('watch?v=')) {
-                let embedUrl = createYoutubeEmbedLink(url);
+                var embedUrl = createYoutubeEmbedLink(url);
                 console.log(embedUrl);
                 addVideoPreview(embedUrl);
-            } else if (url.includes('dailymotion.com/video/')){
-                let embedUrl = createDailymotionEmbedLink(url);
+            } else if (url.includes('dailymotion.com/video/')) {
+               var embedUrl = createDailymotionEmbedLink(url);
                 console.log(embedUrl);
                 addVideoPreview(embedUrl);
             }
+
+            let formData = new FormData();
+            formData.append('videos', embedUrl);
+
+            $.ajax({
+                url: window.location.origin + '/trick/addvideo',
+                type: 'POST',
+                cache: false,
+                data: formData,
+                success: function (data) {
+                    console.log(data);
+                },
+                contentType: false,
+                processData: false
+            });
+
+
         } else {
             alert('Saisissez correcte l\'URL')
         }
+
+
     });
 })
 
