@@ -103,10 +103,15 @@ class TrickController extends AbstractController
     /**
      * @Route("/{slug}/delete", name="trick_delete", methods={"POST"})
      */
-    public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Trick $trick, EntityManagerInterface $entityManager, MediaRepository $media, UploadService $upload): Response
     {
-
         if ($this->isCsrfTokenValid('delete' . $trick->getSlug(), $request->request->get('_token'))) {
+            //delete all images of trick on server
+            $medias = $media->findBy(array('trick' => $trick->getId()));
+            foreach ($medias as $media) {
+                $upload->remove($media->getName());
+            }
+            //delete trick
             $entityManager->remove($trick);
             $entityManager->flush();
         }
@@ -217,8 +222,6 @@ class TrickController extends AbstractController
      */
     public function deleteMedias($id, Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository, Request $request, UploadService $upload): JsonResponse
     {
-
-
         $media = $mediaRepository->findOneBy(['id'=>$id]);
         $upload->remove($media->getName());
 //
