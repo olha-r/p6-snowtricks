@@ -3,6 +3,8 @@
 {% block title %}Modification du profile de {{ user.username }}{% endblock %}
 
 {% block body %}
+    {% include('shared/_alert.html.twig') %}
+
     <div class="container login">
         <h1>Modification du profile de
             {% if user.fullName is not empty %}
