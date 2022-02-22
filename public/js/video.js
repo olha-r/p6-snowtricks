@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (url.includes('embed/')) {
                 var embedUrl = url;
-                    addVideoPreview(embedUrl);
+                addVideoPreview(embedUrl);
             } else if (url.includes('watch?v=')) {
                 var embedUrl = createYoutubeEmbedLink(url);
                 console.log(embedUrl);
                 addVideoPreview(embedUrl);
             } else if (url.includes('dailymotion.com/video/')) {
-               var embedUrl = createDailymotionEmbedLink(url);
+                var embedUrl = createDailymotionEmbedLink(url);
                 console.log(embedUrl);
                 addVideoPreview(embedUrl);
             }
