@@ -59,7 +59,7 @@ class Trick
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $user;
 
@@ -70,15 +70,23 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="cascade")
+     */
+    private $media;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\JoinColumn(onDelete="cascade")
      */
     private $videos;
+
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->media = new ArrayCollection();
-        $this->videos = new ArrayCollection();
+//        $this->media = new ArrayCollection();
+//        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +210,36 @@ class Trick
     }
 
     /**
+     * @return Collection|Media[]
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media[] = $medium;
+            $medium->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): self
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getTrick() === $this) {
+                $medium->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Video[]
      */
     public function getVideos(): Collection
@@ -230,4 +268,6 @@ class Trick
 
         return $this;
     }
+
+
 }

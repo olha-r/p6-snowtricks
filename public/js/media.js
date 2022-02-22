@@ -1,15 +1,16 @@
-$('.delete-img').on('click', function (event) {
-    let img = $('.delete-img').attr('id');
+$('.delete-img').on('click' , function (event) {
+    let img = $(this).attr('id');
     console.log(img);
+    console.log(window.location);
     if (confirm('Supprimer?')) {
         $.ajax({
-            url: window.location.origin + 'media/' + img,
+            url: window.location.origin + '/trick/media/' + img,
             type: "GET",
             cache: false,
             success: function (data) {
                 console.log(data);
                 if (data.success === 1) {
-                    $('.img-'+ img).remove();
+                    $('#img-'+ img).remove();
                 }
             },
             contentType: false,
@@ -17,17 +18,3 @@ $('.delete-img').on('click', function (event) {
         });
     }
 });
-
-
-// window.onload = () => {
-//     let links = document.querySelectorAll("[data-delete]")
-//
-//     for (link of links){
-//         link.addEventListener("click", function(e){
-//             e.preventDefault()
-//             if(confirm("Supprimer?")){
-//
-//             }
-//         })
-//     }
-// }
