@@ -3,6 +3,7 @@
 {% block title %}Edit Trick{% endblock %}
 
 {% block body %}
+    {% include('shared/_alert.html.twig') %}
 
 <section class="info-trick">
         {{ include('trick/_form.html.twig', {'button_label': 'Modifier'}) }}

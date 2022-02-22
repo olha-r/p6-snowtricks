@@ -17,55 +17,8 @@
     {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{{ path('home') }}">SnowTricks</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
-                aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+{% include('shared/_navbar.html.twig') %}
 
-        <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                {% if app.user %}
-                    <li class="nav-item">
-                        <a href="{{ path('trick_new') }}" class="btn btn-outline-danger">Créer nouveau trick</a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('home') }}">Accueil
-                        <span class="visually-hidden">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('home') }}#all-tricks">Tricks</a>
-                </li>
-
-
-                {% if not app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('registration') }}">Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
-
-{% for label, messages in app.flashes %}
-    <div class="alert alert-{{ label }}">
-        {% for message in messages %}
-            <p> {{ message }} </p>
-        {% endfor %}
-    </div>
-{% endfor %}
 {% block body %}{% endblock %}
 
 {% block js %}{% endblock %}

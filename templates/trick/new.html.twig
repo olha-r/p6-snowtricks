@@ -3,6 +3,8 @@
 {% block title %}New Trick{% endblock %}
 
 {% block body %}
+    {% include('shared/_alert.html.twig') %}
+
     <section class="info-trick">
 {#        <h1>Créer nouveau trick</h1>#}
         {{ include('trick/_form.html.twig') }}
