@@ -156,7 +156,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
+     * @Route("/details/{slug}", name="trick_show", methods={"GET", "POST"})
      */
     public function show($slug, Trick $trick, MediaRepository $media, VideoRepository $video, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Request $request, Security $security): Response
     {
