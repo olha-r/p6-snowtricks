@@ -222,7 +222,7 @@ i {
 /***********************************/
 /********** Profile page ***********/
 /***********************************/
-.photo-profile {
+.photo-profile, .user-picture {
   border: 1px #ddd;
   border-radius: 10px;
   width: 120px;
