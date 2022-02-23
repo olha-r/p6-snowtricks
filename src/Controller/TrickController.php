@@ -87,7 +87,7 @@ class TrickController extends AbstractController
                     $entityManager->flush();
                 }
                 $session->remove('video');
-                //vider la session
+
             }
 
 //                foreach ($videos as $videoUrl) {
@@ -105,7 +105,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()], Response::HTTP_SEE_OTHER);
 
         }
-
+        $session->remove('video');
         return $this->renderForm('trick/new.html.twig', [
             'trick' => $trick,
             'form' => $form
@@ -124,7 +124,6 @@ class TrickController extends AbstractController
         } else {
             $session->set('video', [$request->request->get('videos')]);
         }
-
 
         return new JsonResponse([
             'code' => 200,
@@ -163,7 +162,7 @@ class TrickController extends AbstractController
     {
         $user = $security->getUser();
         $medias = $media->findBy(['trick' => $trick]);
-        $video = $video->findOneBy(['trick' => $trick]);
+        $videos = $video->findBy(['trick' => $trick]);
         $comment = $commentRepository->findBy([
             'trick' => $trick->getId()
         ]);
@@ -194,19 +193,19 @@ class TrickController extends AbstractController
             'comments' => $comment,
             'commentForm' => $form,
             'medias' => $medias,
-            'video' => $video
+            'videos' => $videos
         ]);
     }
 
     /**
      * @Route("/{slug}/edit", name="trick_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Trick $trick, MediaRepository $media, VideoRepository $video, EntityManagerInterface $entityManager, UploadService $upload): Response
+    public function edit(Request $request, Trick $trick, MediaRepository $media, VideoRepository $video, EntityManagerInterface $entityManager, UploadService $upload, SessionInterface $session): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         $medias = $media->findBy(['trick' => $trick]);
-        $video = $video->findOneBy(['trick' => $trick]);
+        $videos = $video->findBy(['trick' => $trick]);
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUpdatedAt(new \DateTime());
 
@@ -225,6 +224,17 @@ class TrickController extends AbstractController
                 $entityManager->flush();
             }
 
+            if ($session->get('video')){
+                $videoUrl = $session->get('video');
+                foreach ($videoUrl as $url) {
+                    $video = new Video();
+                    $video->setVideoUrl($url);
+                    $video->setTrick($trick);
+                    $entityManager->persist($video);
+                    $entityManager->flush();
+                }
+                $session->remove('video');
+            }
             // Add new videos Url
 //            $videoUrl = $form->get('videos')->getData();
 ////                foreach ($videos as $videoUrl) {
@@ -246,7 +256,7 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'form' => $form,
             'medias' => $medias,
-            'video' => $video
+            'videos' => $videos
         ]);
     }
 
@@ -268,6 +278,20 @@ class TrickController extends AbstractController
         return new JsonResponse([
             'success' => 1,
             'message' => 'L\'image a bien été supprimée !'
+        ], 200);
+    }
+
+    /**
+     * @Route("/video/{id}", name="video_delete")
+     */
+    public function deleteVideo($id, EntityManagerInterface $entityManager, VideoRepository $videoRepository): JsonResponse
+    {
+        $video = $videoRepository->findOneBy(['id'=>$id]);
+        $entityManager->remove($video);
+        $entityManager->flush();
+        return new JsonResponse([
+            'success' => 1,
+            'message' => 'Video a bien été supprimée !'
         ], 200);
     }
 

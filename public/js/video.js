@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (url.includes('embed/')) {
                 var embedUrl = url;
-                addVideoPreview(embedUrl);
+                    addVideoPreview(embedUrl);
             } else if (url.includes('watch?v=')) {
                 var embedUrl = createYoutubeEmbedLink(url);
                 console.log(embedUrl);
                 addVideoPreview(embedUrl);
             } else if (url.includes('dailymotion.com/video/')) {
-                var embedUrl = createDailymotionEmbedLink(url);
+               var embedUrl = createDailymotionEmbedLink(url);
                 console.log(embedUrl);
                 addVideoPreview(embedUrl);
             }
@@ -63,8 +63,11 @@ function addVideoPreview(link) {
     if (preview.length) {
         preview.attr('src', $(this).val());
     } else {
-        let videoPreview = $(' <iframe id="video-preview" width="300" height="200" src="' + link + '" />');
+        var uniqueId = "id" + Math.random().toString(16).slice(2);
+        let videoPreview = $(' <iframe '+ uniqueId + ' width="300" height="200" src="' + link + '" />');
+        console.log(uniqueId);
         videoPreview.appendTo('.trick-videos');
+        document.getElementById("trick_videos").value = "";
     }
 }
 
