@@ -35,9 +35,10 @@ class VideoFixtures extends Fixture
         ];
         for ($v = 1; $v <= 30; $v++) {
             $trick = $this->getReference('trick_' . rand(1, 17));
+            $url = array_rand($videos);
             $video = new Video();
             $video->setTrick($trick)
-                ->setVideoUrl(array_rand($videos))
+                ->setVideoUrl($videos[$url])
             ;
             $manager->persist($video);
             $this->addReference('video_' . $v, $video);
