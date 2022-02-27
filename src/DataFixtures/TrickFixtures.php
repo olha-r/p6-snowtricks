@@ -68,11 +68,11 @@ class TrickFixtures extends Fixture
         ];
         $slugger = new AsciiSlugger();
 
-        for ($j = 1; $j <= 30; $j++) {
+        foreach ($tricks as $key => $value) {
             $user = $this->getReference('user_'. rand( 1, 5 ));
             $category = $this->getReference('category_'. rand( 1, 7 ));
             $trick = new Trick();
-            $trick->setName("Trick $j")
+            $trick->setName($value['name'])
                 ->setDescription("<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab aperiam dolorum ducimus ea enim facilis illo, porro soluta tempore voluptatibus! Amet aperiam deleniti ipsum minus non possimus quo sint vero!
                                                    </br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi consectetur, delectus dignissimos ea enim inventore ipsum, praesentium repellendus temporibus ut veniam veritatis vero voluptatem! Ex labore maiores numquam provident sint.
                                                    </br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, modi, repellat. Autem beatae corporis distinctio, earum harum incidunt itaque, minima mollitia nemo non nulla placeat praesentium quia sapiente sunt voluptatibus?
@@ -83,10 +83,8 @@ class TrickFixtures extends Fixture
                 ->setSlug($slugger->slug($trick->getName()))
             ;
             $manager->persist($trick);
-            $this->addReference('trick_' . $j, $trick);
+            $this->addReference('trick_' . $key, $trick);
         }
-
-
         $manager->flush();
     }
 
