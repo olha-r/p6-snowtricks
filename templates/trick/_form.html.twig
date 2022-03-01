@@ -14,10 +14,13 @@
 
 </div>
 <div class="images">
-    <div>
+    <div class="upload-images">
 
     <h4>Ajouter des images</h4>
     {{ form_row(form.medias, {'label': false}) }}
+        <div id="images-to-upload">
+
+        </div>
     </div>
     <div class="trick-images">
     {% if app.request.attributes.get('_route') == 'trick_edit' %}

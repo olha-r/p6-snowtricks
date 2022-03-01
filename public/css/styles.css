@@ -199,7 +199,7 @@ i {
 
 
 /*** Carousel ****/
-.trick-images {
+.trick-images, #images-to-upload, .videos {
   display: grid;
   grid-template-columns: auto auto auto;
   align-content: center;
