@@ -199,7 +199,7 @@ i {
 
 
 /*** Carousel ****/
-.trick-images, #images-to-upload, .videos {
+.trick-images {
   display: grid;
   grid-template-columns: auto auto auto;
   align-content: center;
@@ -222,7 +222,7 @@ i {
 /***********************************/
 /********** Profile page ***********/
 /***********************************/
-.photo-profile, .user-picture {
+.photo-profile {
   border: 1px #ddd;
   border-radius: 10px;
   width: 120px;

@@ -1,7 +1,7 @@
 {% for trick in tricks %}
     <div class="trick-card">
-        {% if trick.media[0] is defined %}
-            {% set firstImage = trick.media[0] %}
+        {% if medias[0] is defined %}
+            {% set firstImage = medias[0] %}
             <img class="card-image" src="{{ asset('/uploads/'~ firstImage.name) }}" alt="main trick image">
         {% else %}
             <img class="card-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">

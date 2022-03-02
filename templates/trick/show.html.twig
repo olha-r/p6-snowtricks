@@ -46,17 +46,13 @@
         </div>
 
         <div class="trick-videos">
-            <div class="videos">
-{#                {% if video.videoUrl is defined %}#}
-                    {% for video in videos %}
-                    <div class="video-file" id="video-{{ video.id }}">
-                        <embed type="video/mp4" src="{{ video.videoUrl }}">
-                    </div>
-                    {% endfor %}
-{#                {%  else  %}#}
-{#                    <p>Il n'y a pas de video pour ce trick</p>#}
-{#                {%  endif  %}#}
-            </div>
+            {% if video.videoUrl is defined %}
+                <div class="file-media">
+                    <embed type="video/mp4" src="{{ video.videoUrl }}">
+                </div>
+            {%  else  %}
+            <p>Il n'y a pas de video pour ce trick</p>
+            {%  endif  %}
         </div>
 
         <hr>
