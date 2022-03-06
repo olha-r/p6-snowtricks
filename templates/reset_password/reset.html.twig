@@ -3,10 +3,12 @@
 {% block title %}Redéfinir mon mot de passe{% endblock %}
 
 {% block body %}
-    <h1>Redéfinir mon mot de passe</h1>
+<div class="container reset-password">
+    <h2>Redéfinir mon mot de passe</h2>
 
     {{ form_start(resetForm) }}
         {{ form_row(resetForm.plainPassword) }}
         <button class="btn btn-primary">Réinitialiser mon mot de passe</button>
     {{ form_end(resetForm) }}
+</div>
 {% endblock %}

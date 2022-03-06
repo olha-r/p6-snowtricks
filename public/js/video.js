@@ -64,7 +64,7 @@ function addVideoPreview(link) {
         preview.attr('src', $(this).val());
     } else {
         var uniqueId = "id" + Math.random().toString(16).slice(2);
-        let videoPreview = $(' <iframe '+ uniqueId + ' width="300" height="200" src="' + link + '" />');
+        let videoPreview = $(' <iframe class="upload-video-preview" id="'+ uniqueId + '" width="300" height="200" src="' + link + '" />');
         console.log(uniqueId);
         videoPreview.appendTo('.trick-videos');
         document.getElementById("trick_videos").value = "";

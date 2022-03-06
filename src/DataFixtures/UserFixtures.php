@@ -68,12 +68,24 @@ class UserFixtures extends Fixture
                 ->setEmail($email. '@' .$email . '-mail.com')
                 ->setRoles(["ROLE_USER"])
                 ->setFullName($value['name'])
-                ->setUserPicture('user_' .$key)
+                ->setUserPicture('user_' .$value['name'].'.png')
             ;
 
             $manager->persist($user);
             $this->addReference('user_' . $key, $user);
         }
+
+        $admin = new User();
+        $admin->setUsername('admin')
+            ->setPassword($this->hasher->hashPassword($admin, 'testtest'))
+            ->setEmail('admin@snowtrick.com')
+            ->setRoles(["ROLE_USER"])
+            ->setFullName('Admin SnowTrick')
+            ->setUserPicture('admin.jpeg')
+        ;
+
+        $manager->persist($admin);
+        $this->addReference('admin', $admin);
 
 
         $manager->flush();
