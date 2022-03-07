@@ -1,5 +1,6 @@
 {% if medias %}
-    <div class=" trick-images owl-carousel">
+   <div class=" trick-images owl-carousel {# d-none d-md-block#}">
+
         {% for media in medias %}
             <div class="image">
                 <img src="{{ asset('/uploads/'~ media.name) }}" alt="image of trick: {{ trick.name }} ">
@@ -9,6 +10,14 @@
 {% endif %}
 
 {% if videos %}
+    <div class="list-of-videos owl-carousel {#d-none d-md-block#}">
+        {% for video in videos %}
+            <div class="video-file" id="video-{{ video.id }}">
+                <embed type="video/mp4" src="{{ video.videoUrl }}">
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
 {#    <div class="trick-videos">#}
 {#        <div class="videos">#}
@@ -25,11 +34,3 @@
 {#    </div>#}
 
 
-    <div class="list-of-videos owl-carousel">
-        {% for video in videos %}
-            <div class="video-file" id="video-{{ video.id }}">
-                <embed type="video/mp4" src="{{ video.videoUrl }}">
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}

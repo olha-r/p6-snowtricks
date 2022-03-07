@@ -13,7 +13,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($j = 1; $j <= mt_rand(5, 20); $j++) {
+        for ($j = 1; $j <=  100; $j++) {
             $user = $this->getReference('user_'. rand( 1, 12 ));
             $trick = $this->getReference('trick_'. rand( 1, 17 ));
             $comment = new Comment();

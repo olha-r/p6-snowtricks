@@ -3,6 +3,7 @@
 {% block title %}Snowtricks{% endblock %}
 
 {% block body %}
+
         {% for label, messages in app.flashes %}
         <div class="alert alert-{{ label }} homepage-alert">
             {% for message in messages %}

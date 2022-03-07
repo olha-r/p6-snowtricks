@@ -37,7 +37,7 @@
         </div>
 
         {% include('trick/_media_carousel.html.twig') %}
-
+{#       <button class="btn btn-primary #}{# d-block d-md-none#}{#" id="medias-on-phone">Afficher les medias</button>#}
 
         <div class="trick-description">
             <h5 class="card-title">{{ trick.name }}</h5>
@@ -65,13 +65,17 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/carousel.js') }}"></script>
     <script type="text/javascript">
-        // $(document).ready(function(){
-        //     $(".owl-carousel").owlCarousel({
-        //         items:3,
-        //         nav:true,
-        //         rewind:true,
-        //         margin: 20
-        //     });
-        // });
+        if (window.innerWidth < 600) {
+           let images = document.getElementsByClassName("trick-images")
+               images.style.visibility = "hidden";
+        } else {
+            let images = document.getElementsByClassName("trick-images")
+                images.style.visibility = "visible";
+        }
+        // let btnMedias = document.getElementById('medias-on-phone');
+        // console.log(btnMedias);
+        // $('#medias-on-phone').on('click', function () {
+        //         $( ".trick-images" ).css("display", "block");
+        //     })
     </script>
 {% endblock %}
