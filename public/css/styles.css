@@ -164,6 +164,18 @@ a {
   position: relative;
   background-color: #edf2f4;
   border-radius: 20px;
+  text-align: center;
+}
+
+.trick-name {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(237, 242, 244, 0.7);
+  padding: 15px 40px;
+  border-radius: 20px;
+
 }
 
 .first-image {
@@ -194,8 +206,6 @@ i {
   padding: 20px 30px;
   margin: 20px 0;
 }
-
-
 
 .trick-details {
   display: flex;
@@ -237,10 +247,10 @@ i {
   display: grid;
   grid-template-columns: auto auto auto;
   align-content: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
-.trick-images, .list-of-videos {
+.trick-images, .list-of-videos/*, .upload-images, .add-video, .trick-description .card-title, .trick-description .card-text */{
   padding: 20px 60px;
 }
 
@@ -250,7 +260,7 @@ i {
   object-fit: cover;
   object-position: bottom;
   border-radius: 10px;
-  margin: 0 0 10px 0;
+  margin: 10px 0 0 0;
 }
 
 .owl-nav button {
@@ -326,7 +336,28 @@ span {
 /***********************************/
 /*********** Edit page ************/
 /***********************************/
+.file-media, .video-file {
+  position: relative;
+  margin: 0 0 10px 0;
+}
 
+.file-media a, .video-file a {
+  background-color: #B0413E;
+  text-align: center;
+  border-radius: 0 0 10px 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 70%;
+}
+.file-media a:hover, .video-file a:hover {
+  opacity: 100%;
+}
+
+.file-media a i, .video-file a i {
+  color: #edf2f4;
+  width: 250px;
+}
 
 /***********************************/
 /***** Registration, login pages ***/

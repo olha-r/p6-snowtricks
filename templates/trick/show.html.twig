@@ -15,6 +15,10 @@
             {% else %}
                 <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
             {% endif %}
+            <div class="trick-name">
+                <h5 class="card-title">{{ trick.name }}</h5>
+            </div>
+
 
             {% if app.user %}
                 <div class="btn-trick">
@@ -40,7 +44,6 @@
 {#       <button class="btn btn-primary #}{# d-block d-md-none#}{#" id="medias-on-phone">Afficher les medias</button>#}
 
         <div class="trick-description">
-            <h5 class="card-title">{{ trick.name }}</h5>
             <p class="card-text">{{ trick.description|raw }}</p>
         </div>
         <hr>
