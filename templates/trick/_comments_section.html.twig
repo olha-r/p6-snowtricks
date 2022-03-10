@@ -1,5 +1,4 @@
 <div class="comments">
-    <h4> {{ trick.comments| length }} commentaires:</h4>
     {% if trick.comments | length <= 0 %}
         <p>Commencer la discussion.</p>
     {% endif %}
@@ -15,6 +14,7 @@
     </div>
 
 
+    <h4> {{ trick.comments| length }} commentaires:</h4>
     {% if trick.comments | length > 0 %}
         {{ render(path('comment_page_with_limit', {trickId: trick.id, page: 1, limit: 5})) }}
         <span class="text-center w-100 row">
