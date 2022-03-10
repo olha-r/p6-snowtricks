@@ -10,7 +10,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user %}
                     <li class="nav-item">
-                        <a href="{{ path('trick_new') }}" class="btn btn-outline-danger">Créer nouveau trick</a>
+                        <a href="{{ path('trick_new') }}" class="btn btn-new-trick">Créer nouveau trick</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
@@ -55,8 +55,8 @@
                 </li>
                 {% if app.user %}
                     <li class="nav-item">
-                        <a href="{{ path('trick_new') }}" class="btn btn-outline-danger">
-                            <i class="fa-solid fa-bookmark"></i>
+                        <a href="{{ path('trick_new') }}" class="btn">
+                            <i class="fa-solid fa-bookmark btn-new-trick-mobile"></i>
                         </a>
                     </li>
 

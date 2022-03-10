@@ -66,7 +66,7 @@ function addVideoPreview(link) {
         var uniqueId = "id" + Math.random().toString(16).slice(2);
         let videoPreview = $(' <iframe class="upload-video-preview" id="'+ uniqueId + '" width="300" height="200" src="' + link + '" />');
         console.log(uniqueId);
-        videoPreview.appendTo('.trick-videos');
+        videoPreview.appendTo('.videos-to-upload');
         document.getElementById("trick_videos").value = "";
     }
 }

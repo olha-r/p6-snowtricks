@@ -7,11 +7,26 @@ body {
 
 a {
   text-decoration: none;
-  /*  color: #FA9421;*/
+  color: #0197F6;
+}
+
+.btn-warning {
+  background-color: #FA9F42;
+  border-color: #FA9F42;
+}
+
+.btn-warning:hover {
+  background-color: #DB7209;
+  border-color: #FA9F42;
+}
+
+.btn-primary {
+  border-color: #0197F6;
+  background-color: #0197F6;
 }
 
 .alert {
-  width: 1000px;
+  /*width: 1000px;*/
   margin: 0 auto;
 }
 
@@ -59,6 +74,30 @@ a {
 
 }
 }
+.btn-new-trick {
+  border-color: #FA9F42;
+}
+
+.btn-new-trick:hover {
+  background-color: #FA9F42;
+  color: white;
+}
+
+.btn-new-trick-mobile:hover {
+  color: #FA9F42;
+}
+
+.fa-user:hover, .fa-user-plus:hover, .fa-arrow-right-to-bracket:hover {
+  color: #FA9F42;
+}
+
+.fa-right-from-bracket:hover {
+  color: #B0413E;
+}
+
+.fa-home-alt:hover {
+ color: #0197F6;
+}
 
 /*h1, h2, h3, h4, h5 {*/
 /*  color: #3c6e71  ;*/
@@ -83,6 +122,7 @@ a {
   right: 0;
   top: 300px;
   text-align: center;
+  /*color: #FA9F42;*/
 }
 
 .arrow-down-button {
@@ -190,17 +230,17 @@ a {
   right: 20px;
 }
 
-.btn-trick-delete, .btn-trick-edit {
-  background-color: white;
-  border-radius: 10px;
-  opacity: 70%;
-}
+
 
 i {
   color: #023047;
 }
 
-.trick-details, .images, .trick-images, .trick-images-edit, .trick-videos, .list-of-videos, .trick-description, .comments, .comment-form {
+.btn-trick-delete i:hover, .btn-trick-edit i:hover {
+  color: white;
+}
+
+.trick-details, .images, .trick-images, .trick-images-edit, .trick-videos, .list-of-videos, .trick-description, .comments, .comment-form, .go-back {
   background-color: #edf2f4;
   border-radius: 20px;
   padding: 20px 30px;
@@ -237,13 +277,15 @@ i {
   border-radius: 5px;
 }
 
+
+
 .comment-form textarea {
   min-height: 110px;
 }
 
 
 /*** Carousel ****/
-#images-to-upload, .videos, .trick-images-edit {
+#images-to-upload, .videos, .trick-images-edit, .videos-to-upload {
   display: grid;
   grid-template-columns: auto auto auto;
   align-content: center;
@@ -359,11 +401,31 @@ span {
   width: 250px;
 }
 
+.btn-trick-delete, .btn-trick-edit {
+  background-color: white;
+  border-radius: 10px;
+  opacity: 70%;
+}
+.btn-trick-delete:hover {
+  background-color: #B0413E;
+}
+
+.btn-trick-edit:hover {
+  background-color: #FA9F42;
+}
+
+.btn-edit-page, .btn-edit-page form {
+  display: grid;
+}
+.btn-edit-page form {
+  margin: 20px 0;
+}
+
 /***********************************/
 /***** Registration, login pages ***/
 /***********************************/
 .registration, .login, .reset-password {
-  width: 550px;
+  max-width: 550px;
   margin-top: 30px;
   background-color: #edf2f4;
   border-radius: 20px;
@@ -389,4 +451,9 @@ span {
   object-fit: cover;
 }
 
+/** comment *****/
+
+.comment-user-name {
+  color: #0197F6;
+}
 
