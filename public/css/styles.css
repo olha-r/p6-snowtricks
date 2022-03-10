@@ -3,13 +3,32 @@ html {
 }
 body {
   color: #023047;
+  font-family: 'Montserrat', sans-serif !important;
 }
 
+h1 {
+  font-size: 70px;
+}
+
+h2, h3, h4, h5 {
+  font-size: 20px;
+}
+
+p {
+  font-family: 'Epilogue', sans-serif !important;
+}
 a {
   text-decoration: none;
   color: #0197F6;
+  font-family: 'Epilogue', sans-serif !important;
+}
+label {
+  margin: 10px 0;
 }
 
+.btn, button {
+  font-family: 'Epilogue', sans-serif !important;
+}
 .btn-warning {
   background-color: #FA9F42;
   border-color: #FA9F42;
@@ -132,13 +151,6 @@ a {
 }
 
 
-.arrow-up-button{
-  position: absolute;
-  bottom: 10px;
-  right: 30px;
-}
-
-
 /***********************************/
 /******** List of all tricks ********/
 /***********************************/
@@ -148,6 +160,27 @@ a {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 40px;
+  position: relative;
+}
+
+@media only screen and (max-width: 600px) {
+  #all-tricks {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 20px;
+  }
+}
+@media only screen and (max-width: 768px) and (min-width: 600px) {
+  #all-tricks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+}
+.arrow-up-button{
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
 }
 
 .trick-card {
@@ -289,7 +322,8 @@ i {
   display: grid;
   grid-template-columns: auto auto auto;
   align-content: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 0;
 }
 
 .trick-images, .list-of-videos/*, .upload-images, .add-video, .trick-description .card-title, .trick-description .card-text */{
@@ -345,7 +379,7 @@ i {
   height: 100%;
   background: rgba(255, 255, 255, 0.38) !important;
 }
-span {
+.owl-carousel span {
   font-size: 100px;
   position: relative;
   top: -5px;
@@ -420,6 +454,10 @@ span {
 .btn-edit-page form {
   margin: 20px 0;
 }
+
+/*.trick-images-edit {*/
+/*  padding: 20px 0;*/
+/*}*/
 
 /***********************************/
 /***** Registration, login pages ***/
