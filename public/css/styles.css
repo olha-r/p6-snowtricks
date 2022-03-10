@@ -388,19 +388,30 @@ i {
 .owl-nav button:focus {
   outline: none;
 }
-/*#medias-on-phone {*/
-/*  display:none;*/
-/*}*/
+#medias-on-phone, #videos-on-phone, #hide-medias-on-phone, #hide-videos-on-phone {
+  display:none;
+}
 
-/*@media only screen and (max-width: 600px) {*/
-/*  .owl-carousel.owl-loaded {*/
-/*    display:none;*/
-/*  }*/
 
-/*  #medias-on-phone {*/
-/*    display:block;*/
-/*  }*/
-/*}*/
+@media only screen and (max-width: 600px) {
+  .owl-carousel.owl-loaded {
+    display:none;
+  }
+
+  #medias-on-phone, #videos-on-phone {
+    display:block;
+  }
+
+  .btn-media-phone {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    margin: 10px 0;
+  }
+  /*.trick-images-edit, .list-of-videos {*/
+  /*  display:none;*/
+  /*}*/
+}
 
 /*.file-media img, .upload-image-preview, .upload-video-preview {*/
 /*  width: 180px;*/

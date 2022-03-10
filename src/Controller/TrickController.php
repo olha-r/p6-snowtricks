@@ -113,9 +113,9 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/addvideo", name="trick_add_video", methods={"POST"})
+     * @Route("/add_video", name="trick_add_video", methods={"POST"})
      */
-    public function addVideo(EntityManagerInterface $entityManager, VideoRepository $videoRepository, SessionInterface $session, Request $request): Response
+    public function addVideo(SessionInterface $session, Request $request): Response
     {
         if ($session->get('video')) {
             $video = $session->get('video');
@@ -131,6 +131,37 @@ class TrickController extends AbstractController
         ], 200);
 
     }
+
+    /**
+     * @Route("/remove_video_preview", name="trick_remove_video", methods={"POST"})
+     */
+    public function removeVideo(SessionInterface $session, Request $request): Response
+    {
+        if ($session->get('video')) {
+            $arrayVideo = $session->get('video');
+            $videoToRemove = $request->request->get('link');
+
+            if(in_array($videoToRemove, $arrayVideo))  {
+                $key = array_search($videoToRemove, $arrayVideo);
+                array_splice($arrayVideo, $key, 1);
+                $session->set('video', $arrayVideo);
+//                return $this->json($session->get('video'));
+                return new JsonResponse([
+                    'code' => 200,
+                    'message' =>  "well done",
+//                        $this->json($session->get('video')),
+                ], 200);
+            }
+
+        } else {
+            return new JsonResponse([
+                'code' => 200,
+                'message' => '!!!!!'
+            ], 200);
+        }
+    }
+
+
 
     /**
      * @Route("/{slug}/delete", name="trick_delete", methods={"POST"})
