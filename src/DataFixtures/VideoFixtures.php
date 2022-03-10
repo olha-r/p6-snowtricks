@@ -33,7 +33,7 @@ class VideoFixtures extends Fixture
 //                'url' => 'https://www.youtube.com/embed/YAABnJfKJ5w'
 //            ],
         ];
-        for ($v = 1; $v <= 30; $v++) {
+        for ($v = 1; $v <= 100; $v++) {
             $trick = $this->getReference('trick_' . rand(1, 17));
             $url = array_rand($videos);
             $video = new Video();

@@ -1,7 +1,7 @@
 {% for comment in comments %}
     <div class="comment row">
         <div class="col-2">
-            <p>{{ comment.user.username }}</p>
+            <p class="comment-user-name">{{ comment.user.username }}</p>
             {% if comment.user.userPicture is not empty %}
                     <img src="{{ asset('/uploads/'~ comment.user.userPicture) }}" alt="Photo de {{ comment.user.fullName }}"
                          class="photo-profile">

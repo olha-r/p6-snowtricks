@@ -6,10 +6,13 @@
     {% include('shared/_alert.html.twig') %}
 
     <section class="info-trick">
+        <div class="go-back">
+        <a href="{{ path('home') }}">
+            <i class="fas fa-long-arrow-left"></i> Retour</a>
+        </div>
 {#        <h1>Créer nouveau trick</h1>#}
         {{ include('trick/_form.html.twig') }}
 
-        <a href="{{ path('home') }}">back to list</a>
     </section>
 
 {% endblock %}
