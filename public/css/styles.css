@@ -126,7 +126,7 @@ label {
 /******** Home page ********/
 /***********************************/
 .jumbotron {
-  height:calc(100vh - 6.4rem);
+  height:calc(100vh - 4rem);
   width: 100%;
   margin: 0;
   padding: 0;
@@ -163,11 +163,21 @@ label {
   position: relative;
 }
 
+.arrow-up-button{
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
+}
 @media only screen and (max-width: 600px) {
   #all-tricks {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 20px;
+  }
+  .arrow-up-button{
+    position: absolute;
+    bottom: 40px;
+    right: 30px;
   }
 }
 @media only screen and (max-width: 768px) and (min-width: 600px) {
@@ -176,11 +186,7 @@ label {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
   }
-}
-.arrow-up-button{
-  position: absolute;
-  bottom: 10px;
-  right: 30px;
+
 }
 
 .trick-card {

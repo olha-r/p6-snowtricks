@@ -58,52 +58,24 @@ function createYoutubeEmbedLink(link) {
     return splitLink.join("embed/");
 }
 
+function createDailymotionEmbedLink(link) {
+    let splitLink = link.split('dailymotion.com/video/');
+    return splitLink.join("dailymotion.com/embed/video/");
+}
+
 function addVideoPreview(link) {
     let preview = $('#video-preview');
     if (preview.length) {
         preview.attr('src', $(this).val());
     } else {
         var uniqueId = "id" + Math.random().toString(16).slice(2);
-        // let vPreview =  '<div>'+
-        //     '<iframe class="upload-video-preview" id="'+ uniqueId + '" width="300" height="200" src="' + link + '" />' +
-        //     '<a class="btn btn-video-preview" data-link="'+ link +'">Delete</a>'+
-        //     '</div>'
-
-        // $('.videos-to-upload').append(vPreview);
-        let videoPreview = $('<iframe class="upload-video-preview" id="'+ uniqueId + '" width="300" height="200" src="' + link + '" />');
-        let btnPreview = $( '<a class="btn btn-video-preview" data-link="'+ link +'">Delete</a>'  + '</div>');
-        console.log(uniqueId);
+        let videoPreview = $('<iframe class="upload-video-preview" id="'+ uniqueId + '" data-link="'+ link +'" width="300" height="200" src="' + link + '" />');
+        let btnPreview = $( '<a class="btn btn-video-preview" data-link="'+ link +'">Delete</a>');
+        // console.log(uniqueId);
         videoPreview.appendTo('.videos-to-upload');
         btnPreview.appendTo('.videos-to-upload');
         document.getElementById("trick_videos").value = "";
     }
 }
 
-function createDailymotionEmbedLink(link) {
-    let splitLink = link.split('dailymotion.com/video/');
-    return splitLink.join("dailymotion.com/embed/video/");
-}
 
-// $(document).on('click', '.btn-video-preview', function () {
-//     console.log($(this).attr('data-link'));
-//
-//
-//     let data = new FormData;
-//     data.append('link', $(this).attr('data-link'));
-//
-//     $.ajax({
-//         url: window.location.origin + '/trick/remove_video_preview',
-//         type: 'POST',
-//         cache: false,
-//         data: data,
-//         success: function (data) {
-//             console.log(data);
-//             $(this).hide();
-//             $(btnPreview).hide();
-//         },
-//         contentType: false,
-//         processData: false
-//     });
-//
-//
-// });

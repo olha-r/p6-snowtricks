@@ -76,7 +76,7 @@ class TrickController extends AbstractController
                 $entityManager->flush();
             }
 
-            // Get videos Url from the form
+//            // Get videos Url from the form
             if ($session->get('video')){
                 $videoUrl = $session->get('video');
                 foreach ($videoUrl as $url) {
@@ -86,17 +86,9 @@ class TrickController extends AbstractController
                     $entityManager->persist($video);
                     $entityManager->flush();
                 }
-                $session->remove('video');
 
             }
-
-//                foreach ($videos as $videoUrl) {
-//            $video = new Video();
-//            $video->setVideoUrl($videoUrl);
-//            $video->setTrick($trick);
-//            $entityManager->persist($video);
-//            $entityManager->flush();
-//                }
+            $session->remove('video');
 
             $this->addFlash(
                 'success',
@@ -148,7 +140,7 @@ class TrickController extends AbstractController
 //                return $this->json($session->get('video'));
                 return new JsonResponse([
                     'code' => 200,
-                    'message' =>  "well done",
+                    'message' =>  "Video preview is deleted",
 //                        $this->json($session->get('video')),
                 ], 200);
             }
@@ -156,9 +148,10 @@ class TrickController extends AbstractController
         } else {
             return new JsonResponse([
                 'code' => 200,
-                'message' => '!!!!!'
+                'message' => 'Video preview is not deleted'
             ], 200);
         }
+
     }
 
 
