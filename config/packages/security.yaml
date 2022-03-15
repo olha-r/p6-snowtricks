@@ -38,6 +38,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/profile, roles: ROLE_USER }
          - { path: ^/trick/details, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/trick/page, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/trick, roles: ROLE_USER }
 
 

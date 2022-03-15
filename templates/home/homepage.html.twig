@@ -20,17 +20,16 @@
     </div>
 
 
-        <div class="all-tricks" id="all-tricks">
-
+    <div class="all-tricks" id="all-tricks">
             {{ render(path('trick_page_with_limit', {page: 1, limit: 6})) }}
-            <span class="text-center w-100 load-more">
-			<a href="#" class="btn btn-light mx-auto w-75" id="loadmore">
+
+            <span class="trick-card text-center w-100 load-more">
+			<a href="#" class="btn  mx-auto w-75" id="loadmore">
 				<i class="fas fa-spinner"></i>
 				Load more tricks</a>
 		</span>
 
-
-        <a class="arrow-up-button" href="#all-tricks"><i class="fas fa-arrow-up fa-3x"></i></a>
+    <a class="arrow-up-button" href="#all-tricks"><i class="fas fa-arrow-up fa-3x"></i></a>
     </div>
 
 
