@@ -40,9 +40,13 @@
             <p> {{ trick.comments| length }} commentaires</p>
         </div>
 
+        <div class="btn-media-phone">
+        <button class="btn btn-primary" id="medias-on-phone">Afficher les images</button>
+        <button class="btn btn-warning" id="hide-medias-on-phone">Cacher les images</button>
+        <button class="btn btn-primary" id="videos-on-phone">Afficher les videos</button>
+        <button class="btn btn-warning" id="hide-videos-on-phone">Cacher les videos</button>
+        </div>
         {% include('trick/_media_carousel.html.twig') %}
-{#       <button class="btn btn-primary #}{# d-block d-md-none#}{#" id="medias-on-phone">Afficher les medias</button>#}
-
         <div class="trick-description">
             <p class="card-text">{{ trick.description|raw }}</p>
         </div>
@@ -67,18 +71,5 @@
             integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/carousel.js') }}"></script>
-    <script type="text/javascript">
-        if (window.innerWidth < 600) {
-           let images = document.getElementsByClassName("trick-images")
-               images.style.visibility = "hidden";
-        } else {
-            let images = document.getElementsByClassName("trick-images")
-                images.style.visibility = "visible";
-        }
-        // let btnMedias = document.getElementById('medias-on-phone');
-        // console.log(btnMedias);
-        // $('#medias-on-phone').on('click', function () {
-        //         $( ".trick-images" ).css("display", "block");
-        //     })
-    </script>
+    <script src="{{ asset('js/medias_on_mobile.js') }}"></script>
 {% endblock %}

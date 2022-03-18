@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     addVideoPreview(embedUrl);
             } else if (url.includes('watch?v=')) {
                 var embedUrl = createYoutubeEmbedLink(url);
-                console.log(embedUrl);
+                // console.log(embedUrl);
                 addVideoPreview(embedUrl);
             } else if (url.includes('dailymotion.com/video/')) {
                var embedUrl = createDailymotionEmbedLink(url);
-                console.log(embedUrl);
+                // console.log(embedUrl);
                 addVideoPreview(embedUrl);
             }
 
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
             formData.append('videos', embedUrl);
 
             $.ajax({
-                url: window.location.origin + '/trick/addvideo',
+                url: window.location.origin + '/trick/add_video',
                 type: 'POST',
                 cache: false,
                 data: formData,
@@ -58,20 +58,24 @@ function createYoutubeEmbedLink(link) {
     return splitLink.join("embed/");
 }
 
+function createDailymotionEmbedLink(link) {
+    let splitLink = link.split('dailymotion.com/video/');
+    return splitLink.join("dailymotion.com/embed/video/");
+}
+
 function addVideoPreview(link) {
     let preview = $('#video-preview');
     if (preview.length) {
         preview.attr('src', $(this).val());
     } else {
         var uniqueId = "id" + Math.random().toString(16).slice(2);
-        let videoPreview = $(' <iframe class="upload-video-preview" id="'+ uniqueId + '" width="300" height="200" src="' + link + '" />');
-        console.log(uniqueId);
+        let videoPreview = $('<iframe class="upload-video-preview" id="'+ uniqueId + '" data-link="'+ link +'" width="300" height="200" src="' + link + '" />');
+        let btnPreview = $( '<a class="btn btn-video-preview" data-link="'+ link +'">Delete</a>');
+        // console.log(uniqueId);
         videoPreview.appendTo('.videos-to-upload');
+        btnPreview.appendTo('.videos-to-upload');
         document.getElementById("trick_videos").value = "";
     }
 }
 
-function createDailymotionEmbedLink(link) {
-    let splitLink = link.split('dailymotion.com/video/');
-    return splitLink.join("dailymotion.com/embed/video/");
-}
+

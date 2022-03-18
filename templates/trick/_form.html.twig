@@ -48,7 +48,10 @@
 
     <div class="add-video">
     <h4>Ajouter des videos</h4>
+
     {{ form_row(form.videos, {'label': false, 'attr': {'class': 'videoUpload'} }) }}
+
+        {{ dump(app.session.get('video')) }}
     </div>
     <div class="videos-to-upload">
 
