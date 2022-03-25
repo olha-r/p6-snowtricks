@@ -7,6 +7,7 @@ use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\CommentType;
+use App\Form\MediaType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
@@ -17,6 +18,7 @@ use App\Service\UploadService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +66,7 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
 
-            //Get media files from the form
+//            Get media files from the form
             $medias = $form->get('medias')->getData();
             foreach ($medias as $media) {
                 $fileName = $upload->upload($media);
@@ -75,6 +77,7 @@ class TrickController extends AbstractController
                 $entityManager->persist($media);
                 $entityManager->flush();
             }
+
 
 //            // Get videos Url from the form
             if ($session->get('video')){
@@ -104,6 +107,70 @@ class TrickController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/add_media_preview", name="trick_add_media_preview", methods={"POST"})
+     */
+    public function addMediaPreview(EntityManagerInterface $entityManager, SessionInterface $session, Request $request, UploadService $upload): Response
+    {
+        $medias = $request->files->get('medias');
+        foreach ($medias as $media) {
+            $fileName = md5(uniqid()) . '.' . $media->guessExtension();
+            $media->move(
+                $this->getParameter('upload_directory'),
+                $fileName
+            );
+            $media = new Media();
+            $media->setName($fileName);
+            $entityManager->persist($media);
+            $entityManager->flush();
+
+
+            if ($session->get('media')) {
+                $mediaSession = $session->get('media');
+                array_push($mediaSession, $media->getName());
+                $session->set('media', $mediaSession);
+            } else {
+                $session->set('media', [$media->getName()]);
+            }
+        }
+
+        return new JsonResponse([
+            'code' => 200,
+            'message' => 'ça marche bien avec medias'
+        ], 200);
+
+    }
+
+    /**
+     * @Route("/remove_media_preview", name="trick_remove_media_preview", methods={"POST"})
+     */
+    public function removeMediaPreview(SessionInterface $session, Request $request): Response
+    {
+        if ($session->get('media')) {
+            $arrayMedia = $session->get('media');
+            $mediaToRemove = $request->request->get('link');
+
+            if(in_array($mediaToRemove, $arrayMedia))  {
+                $key = array_search($mediaToRemove, $arrayMedia);
+                array_splice($arrayMedia, $key, 1);
+                $session->set('media', $arrayMedia);
+                return new JsonResponse([
+                    'code' => 200,
+                    'message' =>  "Media preview is deleted",
+                ], 200);
+            }
+
+        } else {
+            return new JsonResponse([
+                'code' => 200,
+                'message' => 'Bien'
+            ], 200);
+        }
+
+    }
+
+
     /**
      * @Route("/add_video", name="trick_add_video", methods={"POST"})
      */
@@ -127,7 +194,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/remove_video_preview", name="trick_remove_video", methods={"POST"})
      */
-    public function removeVideo(SessionInterface $session, Request $request): Response
+    public function removeVideoPreview(SessionInterface $session, Request $request): Response
     {
         if ($session->get('video')) {
             $arrayVideo = $session->get('video');
@@ -148,7 +215,7 @@ class TrickController extends AbstractController
         } else {
             return new JsonResponse([
                 'code' => 200,
-                'message' => 'Video preview is not deleted'
+                'message' => 'bien'
             ], 200);
         }
 

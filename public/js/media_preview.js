@@ -12,9 +12,12 @@ $('#trick_medias').on('change', function () {
         var reader = new FileReader();
         var id = "id-" + Math.random().toString(16).slice(2);
         reader.readAsDataURL(file);
+        var form_data = new FormData();
+            form_data.append("medias[]", file);
+
         reader.onload = function (e) {
             var template = '<div>'+
-                '<img class="upload-image-preview" '+ id +' src="' + e.target.result + '" alt="image to upload" width="300" height="200" />' +
+                '<img class="upload-image-preview" id="'+ id +'" src="' + e.target.result + '" alt="image to upload" width="300" height="200" />' +
                 '<a href="#" class="remove"><i class="fas fa-ban"></i></a>'+
                 '</div>'
             ;
@@ -22,16 +25,17 @@ $('#trick_medias').on('change', function () {
         }
 
     })
-    let fileArray = Array.from(files);
-    console.log(fileArray);
+    // let fileArray = Array.from(files);
+    // console.log(fileArray);
+    console.log(fileCollection);
 
 })
 
 
 
-$('.remove').on('click', function () {
-    var removeFile = document.getElementById('id-'+ id);
-    console.log(removeFile);
+$(document).on('click','.remove', function () {
+        $(this).parent('div').remove();
     fileCollection.pop();
-    removeFile.remove(removeFile);
+    console.log(fileCollection);
 })
+

@@ -146,5 +146,6 @@
     <orderEntry type="library" name="jquery-3.6.0" level="application" />
     <orderEntry type="library" name="slick-carousel" level="application" />
     <orderEntry type="library" name="OwlCarousel2" level="application" />
+    <orderEntry type="library" name="uppy" level="application" />
   </component>
 </module>
