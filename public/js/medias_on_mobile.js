@@ -1,3 +1,19 @@
+$( window ).resize(function() {
+    if (window.innerWidth <= 760) {
+        $( "#medias-on-phone" ).show();
+        $("#videos-on-phone").show();
+    }
+    else
+    {
+        $( "#medias-on-phone" ).hide();
+        $("#videos-on-phone").hide();
+        $("#hide-medias-on-phone").hide();
+        $("#hide-videos-on-phone").hide();
+        $(".trick-images").show();
+        $(".list-of-videos").show();
+    }
+
+});
 $(document).on('click', '#medias-on-phone', function () {
     $(".trick-images").show();
     $("#medias-on-phone").hide();
