@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             el.parentElement.insertAdjacentHTML('beforebegin', response.data);
             updateLink(el);
         });
+
     });
 
     // Check the html content of the previous element and update or remove load more button

@@ -30,12 +30,15 @@
         {{ dump(app.session.get('media')) }}
         <div class="col-lg-12 text-center" id="display_product_list"><ul></ul></div>
         <div id="images-to-upload">
-{#            {% if app.session.get('media')%}#}
-{#            <div>#}
-{#                <img class="upload-image-preview" src="{{  asset('uploads/'~ (app.session.get('media'))}}" alt="image to upload" width="300" height="200" />#}
-{#                <a href="#" class="remove"><i class="fas fa-ban"></i></a>#}
-{#            </div>#}
-{#            {% endif %}#}
+            {% if app.session.get('media')%}
+                {% set sessionMedias = app.session.get('media') %}
+                {%  for media in sessionMedias %}
+            <div>
+                <img class="upload-image-preview"  src="{{  asset('uploads/temp/'~ media) }}" alt="image to upload" width="300" height="200" />
+                <a href="#" class="remove" data-id="{{ media }}"><i class="fas fa-ban"></i></a>
+            </div>
+                {% endfor %}
+            {% endif %}
 
         </div>
     </div>
@@ -63,10 +66,10 @@
         {{ dump(app.session.get('video')) }}
     </div>
     <div class="videos-to-upload">
-{#        {% if app.session.get('video') %}#}
-{#            <iframe class="upload-video-preview" id="'+ uniqueId + '" data-link="'+ link +'" width="300" height="200" src="' + link + '" />#}
+        {% if app.session.get('video') %}
+            <iframe class="upload-video-preview" id="'+ uniqueId + '" data-link="'+ link +'" width="300" height="200" src="' + link + '" />
 
-{#        {% endif %}#}
+        {% endif %}
     </div>
 </div>
 <div class="btn-edit-page">

@@ -7,7 +7,6 @@ use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\CommentType;
-use App\Form\MediaType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
@@ -15,10 +14,9 @@ use App\Repository\TrickRepository;
 use App\Repository\VideoRepository;
 use App\Service\PaginationService;
 use App\Service\UploadService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +30,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  */
 class TrickController extends AbstractController
 {
-
     /**
      * @Route("/page/{page<\d+>}", name="trick_page", methods={"GET"})
      * @Route("/page/{page<\d+>}/{limit}-per-page", name="trick_page_with_limit", methods={"GET"})
@@ -50,7 +47,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/new", name="trick_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, Security $security, UploadService $upload, SessionInterface $session): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security, MediaRepository $mediaRepository, SessionInterface $session, Filesystem $filesystem): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
@@ -66,21 +63,39 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);
             $entityManager->flush();
 
-//            Get media files from the form
-            $medias = $form->get('medias')->getData();
-            foreach ($medias as $media) {
-                $fileName = $upload->upload($media);
-                //we store media file in the database
-                $media = new Media();
-                $media->setName($fileName);
-                $media->setTrick($trick);
-                $entityManager->persist($media);
-                $entityManager->flush();
+            // Get media files from session
+            if ($session->get('media')) {
+                $medias = $session->get('media');
+
+                foreach ($medias as $media) {
+//                $media = json_decode($media);
+//                $fileName = $session->get('media', $media->getName());
+                    $mediaToUpload = $mediaRepository->findOneBy(['name' => $media]);
+                    $mediaToUpload->setTrick($trick);
+                    $mediaFileName = $mediaToUpload->getName();
+                    $filesystem->rename('uploads/temp/'.$mediaFileName, 'uploads/'.$mediaFileName, true);
+                    $entityManager->persist($mediaToUpload);
+                    $entityManager->flush();
+                }
+                $session->remove('media');
             }
 
 
+//            Get media files from the form
+//            $medias = $form->get('medias')->getData();
+//            foreach ($medias as $media) {
+//                $fileName = $upload->upload($media);
+            //we store media file in the database
+//                $media = new Media();
+//                $media->setName($fileName);
+//                $media->setTrick($trick);
+//                $entityManager->persist($media);
+//                $entityManager->flush();
+//            }
+
+
 //            // Get videos Url from the form
-            if ($session->get('video')){
+            if ($session->get('video')) {
                 $videoUrl = $session->get('video');
                 foreach ($videoUrl as $url) {
                     $video = new Video();
@@ -114,17 +129,19 @@ class TrickController extends AbstractController
     public function addMediaPreview(EntityManagerInterface $entityManager, SessionInterface $session, Request $request, UploadService $upload): Response
     {
         $medias = $request->files->get('medias');
-        foreach ($medias as $media) {
-            $fileName = md5(uniqid()) . '.' . $media->guessExtension();
-            $media->move(
-                $this->getParameter('upload_directory'),
-                $fileName
-            );
+//        foreach ($medias as $media) {
+//            $fileName = $upload->upload($media);
+
+        $datas = [];
+        foreach ($medias as $key => $media) {
+            $fileName = $upload->upload($media);
+
             $media = new Media();
             $media->setName($fileName);
             $entityManager->persist($media);
             $entityManager->flush();
 
+            $datas[$key]['name'] = $fileName;
 
             if ($session->get('media')) {
                 $mediaSession = $session->get('media');
@@ -134,12 +151,7 @@ class TrickController extends AbstractController
                 $session->set('media', [$media->getName()]);
             }
         }
-
-        return new JsonResponse([
-            'code' => 200,
-            'message' => 'ça marche bien avec medias'
-        ], 200);
-
+        return new JsonResponse($datas);
     }
 
     /**
@@ -149,25 +161,23 @@ class TrickController extends AbstractController
     {
         if ($session->get('media')) {
             $arrayMedia = $session->get('media');
-            $mediaToRemove = $request->request->get('link');
+            $mediaToRemove = $request->request->get('mediaName');
 
-            if(in_array($mediaToRemove, $arrayMedia))  {
+            if (in_array($mediaToRemove, $arrayMedia)) {
                 $key = array_search($mediaToRemove, $arrayMedia);
                 array_splice($arrayMedia, $key, 1);
                 $session->set('media', $arrayMedia);
                 return new JsonResponse([
                     'code' => 200,
-                    'message' =>  "Media preview is deleted",
+                    'message' => "Media preview is deleted",
                 ], 200);
             }
 
-        } else {
-            return new JsonResponse([
-                'code' => 200,
-                'message' => 'Bien'
-            ], 200);
         }
-
+        return new JsonResponse([
+            'code' => 200,
+            'message' => 'Media preview is not deleted'
+        ], 200);
     }
 
 
@@ -200,14 +210,14 @@ class TrickController extends AbstractController
             $arrayVideo = $session->get('video');
             $videoToRemove = $request->request->get('link');
 
-            if(in_array($videoToRemove, $arrayVideo))  {
+            if (in_array($videoToRemove, $arrayVideo)) {
                 $key = array_search($videoToRemove, $arrayVideo);
                 array_splice($arrayVideo, $key, 1);
                 $session->set('video', $arrayVideo);
 //                return $this->json($session->get('video'));
                 return new JsonResponse([
                     'code' => 200,
-                    'message' =>  "Video preview is deleted",
+                    'message' => "Video preview is deleted",
 //                        $this->json($session->get('video')),
                 ], 200);
             }
@@ -220,7 +230,6 @@ class TrickController extends AbstractController
         }
 
     }
-
 
 
     /**
@@ -291,7 +300,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/{slug}/edit", name="trick_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Trick $trick, MediaRepository $media, VideoRepository $video, EntityManagerInterface $entityManager, UploadService $upload, SessionInterface $session): Response
+    public function edit(Request $request, Trick $trick, MediaRepository $media, VideoRepository $video, EntityManagerInterface $entityManager, Filesystem $filesystem, MediaRepository $mediaRepository, SessionInterface $session): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
@@ -302,20 +311,37 @@ class TrickController extends AbstractController
 
             $entityManager->persist($trick);
             $entityManager->flush();
-            $medias = $form->get('medias')->getData();
 
-            //Add new media files
-            foreach ($medias as $media) {
-                $fileName = $upload->upload($media);
-                //we store media file in the database
-                $media = new Media();
-                $media->setName($fileName);
-                $media->setTrick($trick);
-                $entityManager->persist($media);
-                $entityManager->flush();
+            // Add new media files from session
+            if ($session->get('media')) {
+                $medias = $session->get('media');
+                foreach ($medias as $media) {
+//                $media = json_decode($media);
+//                $fileName = $session->get('media', $media->getName());
+                    $mediaToUpload = $mediaRepository->findOneBy(['name' => $media]);
+                    $mediaToUpload->setTrick($trick);
+                    $mediaFileName = $mediaToUpload->getName();
+                    $filesystem->rename('uploads/temp/'.$mediaFileName, 'uploads/'.$mediaFileName, true);
+                    $entityManager->persist($mediaToUpload);
+                    $entityManager->flush();
+                }
+                $session->remove('media');
             }
 
-            if ($session->get('video')){
+
+            //Add new media files
+//            $medias = $form->get('medias')->getData();
+//            foreach ($medias as $media) {
+//                $fileName = $upload->upload($media);
+                //we store media file in the database
+//                $media = new Media();
+//                $media->setName($fileName);
+//                $media->setTrick($trick);
+//                $entityManager->persist($media);
+//                $entityManager->flush();
+//            }
+
+            if ($session->get('video')) {
                 $videoUrl = $session->get('video');
                 foreach ($videoUrl as $url) {
                     $video = new Video();
@@ -356,7 +382,7 @@ class TrickController extends AbstractController
      */
     public function deleteMedias($id, Media $media, EntityManagerInterface $entityManager, MediaRepository $mediaRepository, Request $request, UploadService $upload): JsonResponse
     {
-        $media = $mediaRepository->findOneBy(['id'=>$id]);
+        $media = $mediaRepository->findOneBy(['id' => $id]);
         $upload->remove($media->getName());
 //
 //        $filesystem = new Filesystem();
@@ -377,7 +403,7 @@ class TrickController extends AbstractController
      */
     public function deleteVideo($id, EntityManagerInterface $entityManager, VideoRepository $videoRepository): JsonResponse
     {
-        $video = $videoRepository->findOneBy(['id'=>$id]);
+        $video = $videoRepository->findOneBy(['id' => $id]);
         $entityManager->remove($video);
         $entityManager->flush();
         return new JsonResponse([
