@@ -69,11 +69,15 @@ function addVideoPreview(link) {
         preview.attr('src', $(this).val());
     } else {
         var uniqueId = "id" + Math.random().toString(16).slice(2);
+        let videoPreviewDiv = $('<div></div>')
         let videoPreview = $('<iframe class="upload-video-preview" id="'+ uniqueId + '" data-link="'+ link +'" width="300" height="200" src="' + link + '" />');
-        let btnPreview = $( '<a class="btn btn-video-preview" data-link="'+ link +'">Delete</a>');
+        let btnPreview = $( '<a class="btn btn-video-preview" data-link="'+ link +'"><i class="fas fa-ban"></i></a>');
         // console.log(uniqueId);
-        videoPreview.appendTo('.videos-to-upload');
-        btnPreview.appendTo('.videos-to-upload');
+        // videoPreview.appendTo('.videos-to-upload');
+        // btnPreview.appendTo('.videos-to-upload');
+        videoPreviewDiv.appendTo('.videos-to-upload');
+        videoPreview.appendTo(videoPreviewDiv);
+        btnPreview.appendTo(videoPreviewDiv);
         document.getElementById("trick_videos").value = "";
     }
 }
