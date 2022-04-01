@@ -16,7 +16,28 @@ h2, h3, h4, h5 {
 
 p {
   font-family: 'Epilogue', sans-serif !important;
+  font-size: 16px;
 }
+
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 45px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  h3, h4, h5 {
+    font-size: 18px;
+  }
+
+  label {
+    font-size: 16px;
+  }
+}
+
 a {
   text-decoration: none;
   color: #0197F6;
@@ -242,6 +263,14 @@ label {
   display: flex;
   align-items: center;
 }
+
+.fa-pencil-alt:hover {
+  color: #FA9F42;
+}
+
+.fa-trash-alt:hover {
+  color: #B0413E;
+}
 /*#show-trick {*/
 /*  margin: 40px 20px 30px;*/
 /*  padding: 20px 10px;*/
@@ -266,6 +295,12 @@ label {
   background-color: #edf2f4;
   border-radius: 20px;
   text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-image img {
+    border-radius: 0;
+  }
 }
 
 .trick-name {
@@ -315,6 +350,18 @@ i {
   margin: 0;
 }
 
+@media only screen and (max-width: 600px) {
+  .trick-details {
+    flex-direction: column;
+    padding-top: 20px;
+  }
+  .trick-details p {
+    font-size: 16px;
+    margin: 5px;
+  }
+  }
+
+
 
 .comment-form {
   margin: 10px 0;
@@ -323,6 +370,11 @@ i {
 
 .trick-description textarea {
   min-height: 400px;
+}
+
+ p {
+text-align: justify;
+  line-height: 1.7;
 }
 
 .comment {
@@ -352,6 +404,20 @@ i {
   align-content: center;
   justify-content: space-between;
   padding: 0 0;
+}
+
+.videos-to-upload div {
+  display: flex;
+  align-items: center;
+}
+
+.videos-to-upload div a{
+  padding: 0;
+}
+
+.fa-ban::before {
+  height: 17px;
+  width: 17px;
 }
 
 .trick-images, .list-of-videos/*, .upload-images, .add-video, .trick-description .card-title, .trick-description .card-text */{

@@ -2,6 +2,8 @@ $( window ).resize(function() {
     if (window.innerWidth <= 760) {
         $( "#medias-on-phone" ).show();
         $("#videos-on-phone").show();
+        $(".trick-images").hide();
+        $(".list-of-videos").hide();
     }
     else
     {

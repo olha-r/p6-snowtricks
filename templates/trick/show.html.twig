@@ -32,12 +32,13 @@
         </div>
         <div class="trick-details">
             <p>Category: {{ trick.category.name }}</p>
-            <p>Ajouté le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</p>
             {% if trick.updatedAt %}
                 <p>Mise à jour le {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y H:i') : '' }}</p>
+            {% else %}
+            <p>Ajouté le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</p>
             {% endif %}
+
             <p>Auteur: {{ trick.user.username }}</p>
-            <p> {{ trick.comments| length }} commentaires</p>
         </div>
 
         <div class="btn-media-phone">
@@ -46,6 +47,8 @@
         <button class="btn btn-primary" id="videos-on-phone">Afficher les videos</button>
         <button class="btn btn-warning" id="hide-videos-on-phone">Cacher les videos</button>
         </div>
+
+
         {% include('trick/_media_carousel.html.twig') %}
         <div class="trick-description">
             <p class="card-text">{{ trick.description|raw }}</p>
