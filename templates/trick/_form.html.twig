@@ -28,7 +28,7 @@
     <div class="upload-images" id="js-trick-images">
         <h4>Ajouter des images</h4>
         {{ form_row(form.medias, {'label': false}) }}
-        {{ dump(app.session.get('media')) }}
+{#        {{ dump(app.session.get('media')) }}#}
         <div class="col-lg-12 text-center" id="display_product_list"><ul></ul></div>
         <div id="images-to-upload">
             {% if app.session.get('media')%}
