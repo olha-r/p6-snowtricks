@@ -6,16 +6,20 @@
     {% include('shared/_alert.html.twig') %}
 
     <section class="info-trick">
+        <div class="go-back">
+        <a href="{{ path('home') }}">
+            <i class="fas fa-long-arrow-left"></i> Retour</a>
+        </div>
 {#        <h1>Créer nouveau trick</h1>#}
         {{ include('trick/_form.html.twig') }}
-
-        <a href="{{ path('home') }}">back to list</a>
     </section>
 
 {% endblock %}
 
 {% block js %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ asset('js/video.js') }}"></script>
-    <script src="{{ asset('js/media_preview.js') }}"></script>
+    <script src="{{ asset('js/add_video_preview.js') }}"></script>
+    <script src="{{ asset('js/delete_video_preview.js') }}"></script>
+    <script src="{{ asset('js/add_media_preview.js') }}"></script>
+    <script src="{{ asset('js/delete_media_preview.js') }}"></script>
 {% endblock %}

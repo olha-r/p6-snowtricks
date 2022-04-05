@@ -7,75 +7,53 @@
 
     <section class="info-trick">
         <div class="main-image">
+            {# <link type="button" class="link-dark"> #}
+            {# <a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a> #}
             {% if medias[0] is defined %}
                 {% set firstImage = medias[0] %}
                 <img class="first-image" src="{{ asset('/uploads/'~ firstImage.name) }}" alt="main trick image">
             {% else %}
                 <img class="first-image" src="{{ asset('/images/default_image.jpeg') }}" alt="default trick image">
             {% endif %}
+            <div class="trick-name">
+                <h5 class="card-title">{{ trick.name }}</h5>
+            </div>
+
 
             {% if app.user %}
                 <div class="btn-trick">
                     <button class="btn btn-trick-edit"><a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i
                                     class="fas fa-pencil-alt fa-lg"></i></a></button>
                     {% embed "trick/_delete_form.html.twig" %}
-                        {% set btn = '<button class="btn btn-trick-delete"><i class="fas fa-trash-alt 1-x"></i></button>' %}
+                        {% set btn = '<button class="btn btn-trick-delete"><i class="fas fa-trash-alt fa-lg"></i></button>' %}
                     {% endembed %}
                 </div>
             {% endif %}
         </div>
         <div class="trick-details">
             <p>Category: {{ trick.category.name }}</p>
-            <p>Ajouté le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</p>
             {% if trick.updatedAt %}
                 <p>Mise à jour le {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y H:i') : '' }}</p>
+            {% else %}
+            <p>Ajouté le {{ trick.createdAt ? trick.createdAt|date('d/m/Y H:i') : '' }}</p>
             {% endif %}
+
             <p>Auteur: {{ trick.user.username }}</p>
-            <p> {{ trick.comments| length }} commentaires</p>
         </div>
 
-        <link type="button" class="link-dark">
-        <a href="{{ path('home') }}"><i class="fas fa-arrow-left"></i>back to list</a>
-
-        <div class="images trick-images">
-            {% for media in medias %}
-                <div class="file-media">
-                    <img src="{{ asset('/uploads/'~ media.name) }}" alt="file-media">
-                </div>
-            {% endfor %}
+        <div class="btn-media-phone">
+        <button class="btn btn-primary" id="medias-on-phone">Afficher les images</button>
+        <button class="btn btn-warning" id="hide-medias-on-phone">Cacher les images</button>
+        <button class="btn btn-primary" id="videos-on-phone">Afficher les videos</button>
+        <button class="btn btn-warning" id="hide-videos-on-phone">Cacher les videos</button>
         </div>
 
-        <div class="trick-videos">
-            <div class="videos">
-{#                {% if video.videoUrl is defined %}#}
-                    {% for video in videos %}
-                    <div class="video-file" id="video-{{ video.id }}">
-                        <embed type="video/mp4" src="{{ video.videoUrl }}">
-                    </div>
-                    {% endfor %}
-{#                {%  else  %}#}
-{#                    <p>Il n'y a pas de video pour ce trick</p>#}
-{#                {%  endif  %}#}
-            </div>
-        </div>
 
-        <hr>
+        {% include('trick/_media_carousel.html.twig') %}
         <div class="trick-description">
-            <h5 class="card-title">{{ trick.name }}</h5>
             <p class="card-text">{{ trick.description|raw }}</p>
         </div>
         <hr>
-        {# <div class="col-4"> #}
-        {# <button type="button" class="btn btn-danger btn-lg"><a #}
-        {# href="{{ path('trick_edit', {'slug': trick.slug}) }}">edit</a></button> #}
-        {# </div> #}
-        {# <div class="col"> {{ include('trick/_delete_form.html.twig') }}</div> #}
-
-        {# <div class="col-4"> #}
-        {# <button type="button" class="btn btn-warning btn-lg"><a #}
-        {# href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a></button> #}
-        {# </div> #}
-        {# <div class="col"> {{ include('trick/_delete_form.html.twig') }}</div> #}
 
         {{ include('trick/_comments_section.html.twig') }}
 
@@ -89,4 +67,12 @@
             integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
             crossorigin="anonymous"></script>
     <script src="{{ asset('js/loadmore.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+            integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/carousel.js') }}"></script>
+    <script src="{{ asset('js/medias_on_mobile.js') }}"></script>
 {% endblock %}

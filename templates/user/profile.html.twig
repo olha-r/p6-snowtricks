@@ -6,13 +6,13 @@
     {% include('shared/_alert.html.twig') %}
 
     <div class="container login">
-        <h1>Profile de
-            {% if user.fullName is not empty %}
+        <h2>Profile de </h2>
+           <h2> {% if user.fullName is not empty %}
                 {{ user.fullName }}
             {% else %}
                 {{ user.username }}
             {% endif %}
-        </h1>
+           </h2>
         <div>
             {% if user.userPicture %}
                 <img  src="{{ asset('/uploads/'~ user.userPicture) }}" alt="Photo de {{ user.fullName }}"

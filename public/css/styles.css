@@ -1,32 +1,153 @@
 html {
   height: 100%;
 }
+
 body {
   color: #023047;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+h1 {
+  font-size: 70px;
+}
+
+h2, h3, h4, h5 {
+  font-size: 20px;
+}
+
+p {
+  font-family: 'Epilogue', sans-serif !important;
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 45px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  h3, h4, h5 {
+    font-size: 18px;
+  }
+
+  label {
+    font-size: 16px;
+  }
 }
 
 a {
   text-decoration: none;
-  /*  color: #FA9421;*/
+  color: #0197F6;
+  font-family: 'Epilogue', sans-serif !important;
+}
+
+label {
+  margin: 10px 0;
+}
+
+.btn, button {
+  font-family: 'Epilogue', sans-serif !important;
+}
+
+.btn-warning {
+  background-color: #FA9F42;
+  border-color: #FA9F42;
+}
+
+.btn-warning:hover {
+  background-color: #DB7209;
+  border-color: #FA9F42;
+}
+
+.btn-primary {
+  border-color: #0197F6;
+  background-color: #0197F6;
 }
 
 .alert {
-  width: 1000px;
+  /*width: 1000px;*/
   margin: 0 auto;
 }
 
 .homepage-alert {
   width: 100%;
 }
-/*h1, h2, h3, h4, h5 {*/
-/*  color: #3c6e71  ;*/
-/*}*/
+
+/***********************************/
+/******** Nav bar ********/
+/***********************************/
+
+.navbar-toggler {
+  height: 2.5em;
+}
+
+.navbar-toggler-icon {
+  width: 0.5em;
+  height: 0.5em;
+}
+
+.navbar-mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar-desktop {
+    display: none;
+  }
+
+  .navbar-mobile {
+    display: block;
+    /*position: -webkit-sticky;*/
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #edf2f4;
+    margin: 5px 0 0;
+    padding: 10px 0;
+    z-index: 999999;
+  }
+
+  .navbar-mobile ul {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+  }
+}
+
+.btn-new-trick {
+  border-color: #FA9F42;
+}
+
+.btn-new-trick:hover {
+  background-color: #FA9F42;
+  color: white;
+}
+
+.btn-new-trick-mobile:hover {
+  color: #FA9F42;
+}
+
+.fa-user:hover, .fa-user-plus:hover, .fa-arrow-right-to-bracket:hover {
+  color: #FA9F42;
+}
+
+.fa-right-from-bracket:hover {
+  color: #B0413E;
+}
+
+.fa-home-alt:hover {
+  color: #0197F6;
+}
 
 /***********************************/
 /******** Home page ********/
 /***********************************/
 .jumbotron {
-  height:calc(100vh - 6.4rem);
+  height: calc(100vh - 4rem);
   width: 100%;
   margin: 0;
   padding: 0;
@@ -41,6 +162,7 @@ a {
   right: 0;
   top: 300px;
   text-align: center;
+  /*color: #FA9F42;*/
 }
 
 .arrow-down-button {
@@ -49,39 +171,72 @@ a {
   right: 30px;
 }
 
+/***********************************/
+/******** List of all tricks ********/
+/***********************************/
 
-.arrow-up-button{
+#all-tricks {
+  padding: 3% 5%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px;
+  position: relative;
+}
+
+
+.load-more {
+  grid-column-end: 3;
+}
+
+.arrow-up-button {
   position: absolute;
   bottom: 10px;
   right: 30px;
 }
 
+@media only screen and (max-width: 600px) {
+  #all-tricks {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 20px;
+    margin-bottom: 40px;
+  }
 
-/***********************************/
-/******** List of all tricks ********/
-/***********************************/
-.tricks {
-  position: relative;
+  .load-more {
+    grid-column-end: span 1;
+    margin-bottom: 50px;
+  }
+
+  .arrow-up-button {
+    position: absolute;
+    bottom: 40px;
+    right: 30px;
+  }
 }
 
-.all-tricks {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  align-content: center;
-  justify-content: center;
-  padding: 25px 50px;
+@media only screen and (max-width: 768px) and (min-width: 600px) {
+  #all-tricks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+
+  .load-more {
+    grid-column-end: span 2;
+    margin-bottom: 50px;
+  }
 }
 
 .trick-card {
-  width: 350px;
-  margin: 25px 25px 0;
   background-color: #edf2f4;
   border-radius: 10px;
 }
 
 .card-image {
-  width: 350px;
+  width: 100%;
   height: 250px;
+  object-fit: cover;
+  object-position: bottom;
   border-radius: 10px 10px 0 0;
 }
 
@@ -95,30 +250,31 @@ a {
   align-items: center;
 }
 
-/*.btn-trick-modify a {*/
-/*  margin-left: 25px;*/
-/*}*/
-
-.btn-trick-modify{
+.btn-trick-modify {
   display: flex;
   align-items: center;
 }
-/*#show-trick {*/
-/*  margin: 40px 20px 30px;*/
-/*  padding: 20px 10px;*/
-/*}*/
+
+.fa-pencil-alt:hover {
+  color: #FA9F42;
+}
+
+.fa-trash-alt:hover {
+  color: #B0413E;
+}
 
 .btn-trick-del {
-padding: 0;
+  padding: 0;
   border: 0;
   margin-left: 20px;
   align-self: stretch;
 }
+
 /***********************************/
 /******** Trick detail page ********/
 /***********************************/
 .info-trick {
-  width: 1000px;
+  max-width: 1000px;
   margin: 0 auto 40px;
 }
 
@@ -126,6 +282,24 @@ padding: 0;
   position: relative;
   background-color: #edf2f4;
   border-radius: 20px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-image img {
+    border-radius: 0;
+  }
+}
+
+.trick-name {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(237, 242, 244, 0.7);
+  padding: 15px 40px;
+  border-radius: 20px;
+
 }
 
 .first-image {
@@ -140,17 +314,16 @@ padding: 0;
   right: 20px;
 }
 
-.btn-trick-delete, .btn-trick-edit {
-  background-color: white;
-  border-radius: 10px;
-  opacity: 70%;
-}
 
 i {
   color: #023047;
 }
 
-.trick-details, .images, .trick-videos, .trick-description, .comments, .comment-form {
+.btn-trick-delete i:hover, .btn-trick-edit i:hover {
+  color: white;
+}
+
+.trick-details, .images, .trick-images, .trick-images-edit, .trick-videos, .list-of-videos, .trick-description, .comments, .comment-form, .go-back {
   background-color: #edf2f4;
   border-radius: 20px;
   padding: 20px 30px;
@@ -164,11 +337,16 @@ i {
   margin: 0;
 }
 
-.file-media img {
-  width: 250px;
-  height: 150px;
-  border-radius: 10px 10px 0 0;
-  margin: 0.5em 2em;
+@media only screen and (max-width: 600px) {
+  .trick-details {
+    flex-direction: column;
+    padding-top: 20px;
+  }
+
+  .trick-details p {
+    font-size: 16px;
+    margin: 5px;
+  }
 }
 
 .comment-form {
@@ -180,9 +358,13 @@ i {
   min-height: 400px;
 }
 
+p {
+  text-align: justify;
+  line-height: 1.7;
+}
+
 .comment {
   display: flex;
-
 }
 
 .btn-comment {
@@ -197,35 +379,203 @@ i {
   min-height: 110px;
 }
 
-
 /*** Carousel ****/
-.trick-images, #images-to-upload, .videos {
+#images-to-upload, .videos, .trick-images-edit, .videos-to-upload {
   display: grid;
   grid-template-columns: auto auto auto;
   align-content: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 0;
 }
 
+.videos-to-upload div {
+  display: flex;
+  align-items: center;
+}
+
+.videos-to-upload div a {
+  padding: 0;
+}
+
+.fa-ban::before {
+  height: 17px;
+  width: 17px;
+}
+
+.trick-images, .list-of-videos /*, .upload-images, .add-video, .trick-description .card-title, .trick-description .card-text */
+{
+  padding: 20px 60px;
+}
+
+.trick-images img, .video-file embed, .file-media img, .upload-image-preview, .upload-video-preview {
+  width: 250px;
+  height: 180px;
+  object-fit: cover;
+  object-position: bottom;
+  border-radius: 10px;
+  margin: 10px 0 0 0;
+}
+
+.owl-nav button {
+  position: absolute;
+  top: 50%;
+  background-color: #023047;
+  color: #edf2f4;
+  margin: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.owl-nav button.owl-prev {
+  left: 0;
+}
+
+.owl-nav button.owl-next {
+  right: 0;
+}
+
+.owl-dots {
+  text-align: center;
+  padding-top: 15px;
+}
+
+.owl-dots button.owl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  background: #ccc;
+  margin: 0 3px;
+}
+
+.owl-dots button.owl-dot.active {
+  background-color: #023047;
+}
+
+.owl-dots button.owl-dot:focus {
+  outline: none;
+}
+
+.owl-nav button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  background: rgba(255, 255, 255, 0.38) !important;
+}
+
+.owl-carousel span {
+  font-size: 100px;
+  position: relative;
+  top: -5px;
+}
+
+.owl-nav button:focus {
+  outline: none;
+}
+
+#medias-on-phone, #videos-on-phone, #hide-medias-on-phone, #hide-videos-on-phone {
+  display: none;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .owl-carousel.owl-loaded {
+    display: none;
+  }
+
+  #medias-on-phone, #videos-on-phone {
+    display: block;
+  }
+
+  .btn-media-phone {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    margin: 10px 0;
+  }
+}
+
+/***********************************/
+/*********** Edit page ************/
+/***********************************/
+.file-media, .video-file {
+  position: relative;
+  margin: 0 0 10px 0;
+}
+
+.file-media a, .video-file a {
+  background-color: #B0413E;
+  text-align: center;
+  border-radius: 0 0 10px 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 70%;
+}
+
+.file-media a:hover, .video-file a:hover {
+  opacity: 100%;
+}
+
+.file-media a i, .video-file a i {
+  color: #edf2f4;
+  width: 250px;
+}
+
+.btn-trick-delete, .btn-trick-edit {
+  background-color: white;
+  border-radius: 10px;
+  opacity: 70%;
+}
+
+.btn-trick-delete:hover {
+  background-color: #B0413E;
+}
+
+.btn-trick-edit:hover {
+  background-color: #FA9F42;
+}
+
+.btn-edit-page, .btn-edit-page form {
+  display: grid;
+}
+
+.btn-edit-page form {
+  margin: 20px 0;
+}
 
 /***********************************/
 /***** Registration, login pages ***/
 /***********************************/
-.registration, .login {
-  width: 500px;
+.registration, .login, .reset-password {
+  max-width: 550px;
+  margin-top: 30px;
+  background-color: #edf2f4;
+  border-radius: 20px;
+  padding: 20px 30px;
 }
 
-.registration .form-group, .login .form-group {
+.registration .form-group, .login .form-group, .reset-password .form-group {
   margin: 15px 0;
 }
 
+.reset-password p {
+  margin: 20px 0;
+}
 
 /***********************************/
 /********** Profile page ***********/
 /***********************************/
 .photo-profile, .user-picture {
   border: 1px #ddd;
-  border-radius: 10px;
-  width: 120px;
-  height: 110px;
+  border-radius: 50px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
+}
+
+/**Comment*****/
+
+.comment-user-name {
+  color: #0197F6;
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-desktop navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('home') }}">SnowTricks</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
@@ -10,7 +10,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user %}
                     <li class="nav-item">
-                        <a href="{{ path('trick_new') }}" class="btn btn-outline-danger">Créer nouveau trick</a>
+                        <a href="{{ path('trick_new') }}" class="btn btn-new-trick">Créer nouveau trick</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
@@ -45,4 +45,46 @@
             </ul>
         </div>
     </div>
+</nav>
+
+<nav class="navbar navbar-mobile navbar-expand bottom">
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('home') }}#all-tricks"><i class="fas fa-home-alt"></i></a>
+                </li>
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a href="{{ path('trick_new') }}" class="btn">
+                            <i class="fa-solid fa-bookmark btn-new-trick-mobile"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('user_profile', {'username': app.user.username}) }}">
+                            <i class="fa-solid fa-user fa-lg"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">
+                            <i class="fa-solid fa-right-from-bracket fa-lg"></i>
+                        </a>
+                    </li>
+
+                    {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('registration') }}">
+                            <i class="fa-solid fa-user-plus fa-lg"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">
+                            <i class="fa-solid fa-arrow-right-to-bracket fa-lg"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+
 </nav>

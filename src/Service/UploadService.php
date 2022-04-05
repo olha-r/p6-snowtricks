@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -10,11 +11,13 @@ class UploadService
 {
     private $targetDirectory;
     private $slugger;
+    private $filesystem;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    public function __construct($targetDirectory, SluggerInterface $slugger, Filesystem $filesystem)
     {
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
+        $this->filesystem = $filesystem;
     }
     public function upload(UploadedFile $file): string
     {
@@ -44,8 +47,12 @@ class UploadService
     public function remove($fileName)
     {
         // Remove the file from the server
-        if (file_exists($this->getTargetDirectory() . '/' . $fileName)) {
-            unlink($this->getTargetDirectory() . '/' . $fileName);
+
+        if ($this->filesystem->exists($this->getTargetDirectory() . '/' . $fileName))
+//            file_exists($this->getTargetDirectory() . '/' . $fileName)
+         {
+             $this->filesystem->remove($this->getTargetDirectory() . '/' . $fileName);
+//            unlink($this->getTargetDirectory() . '/' . $fileName);
         }
     }
 

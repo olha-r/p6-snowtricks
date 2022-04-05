@@ -1,0 +1,39 @@
+    <div class=" trick-images owl-carousel {# d-none d-md-block #}">
+{% if medias %}
+        {% for media in medias %}
+            <div class="image">
+                <img src="{{ asset('/uploads/'~ media.name) }}" alt="image of trick: {{ trick.name }} ">
+            </div>
+        {% endfor %}
+{% else %}
+    <p>Il n'y a pas d'images pour ce trick</p>
+{% endif %}
+    </div>
+
+    <div class="list-of-videos owl-carousel {# d-none d-md-block #}">
+{% if videos %}
+        {% for video in videos %}
+            <div class="video-file" id="video-{{ video.id }}">
+                <embed type="video/mp4" src="{{ video.videoUrl }}">
+            </div>
+        {% endfor %}
+{% else %}
+    <p>Il n'y a pas de video pour ce trick</p>
+{% endif %}
+    </div>
+
+{# <div class="trick-videos"> #}
+{# <div class="videos"> #}
+{# #}{# {% if video.videoUrl is defined %} #}
+{# {% for video in videos %} #}
+{# <div class="video-file" id="video-{{ video.id }}"> #}
+{# <embed type="video/mp4" src="{{ video.videoUrl }}"> #}
+{# </div> #}
+{# {% endfor %} #}
+{# #}{# {%  else  %} #}
+{# #}{# <p>Il n'y a pas de video pour ce trick</p> #}
+{# #}{# {%  endif  %} #}
+{# </div> #}
+{# </div> #}
+
+
